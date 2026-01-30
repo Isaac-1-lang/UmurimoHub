@@ -9,8 +9,8 @@ import java.util.Properties;
 public class EmailUtil {
     private static final String SMTP_HOST = "smtp.gmail.com";
     private static final String SMTP_PORT = "587";
-    private static final String SMTP_USER = "izerejoshua@gmail.com"; 
-    private static final String SMTP_PASSWORD = "lfkb sgdn lsjq ttnr"; 
+    private static final String SMTP_USER = "isaprecieux112@gmailcom";
+    private static final String SMTP_PASSWORD = "zqpzstykybijehop";
 
     public static boolean sendEmail(String to, String subject, String body) {
         try {
@@ -42,7 +42,7 @@ public class EmailUtil {
     }
 
     public static void sendHRCredentials(String email, String firstName, String password) {
-        String subject = "Welcome to UmurimoHub - Your HR Account Credentials";
+        String subject = "Welcome to UmurimoHub  Your HR Account Credentials";
         String body = "Dear " + firstName + ",\n\n" +
                 "Your HR account has been created successfully.\n\n" +
                 "Login Credentials:\n" +

@@ -29,7 +29,14 @@ public class WorkerService {
         worker.setStatus("ACTIVE");
 
         workerDAO.save(worker);
-        EmailUtil.sendWorkerCredentials(email, firstName, tempPassword);
+        // Try to send email, but don't fail if it doesn't work
+        try {
+            EmailUtil.sendWorkerCredentials(email, firstName, tempPassword);
+        } catch (Exception e) {
+            // Log the error but continue - worker account is created successfully
+            System.err.println("Failed to send email credentials: " + e.getMessage());
+            // In production, you might want to log this to a proper logging framework
+        }
         return worker;
     }
 
