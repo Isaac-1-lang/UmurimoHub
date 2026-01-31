@@ -33,7 +33,7 @@ public class HRActivityLogDAO {
         EntityManager em = DBConnection.getEntityManager();
         try {
             TypedQuery<HRActivityLog> query = em.createQuery(
-                "SELECT l FROM HRActivityLog l ORDER BY l.timestamp DESC", HRActivityLog.class);
+                "SELECT l FROM HRActivityLog l JOIN FETCH l.hrUser ORDER BY l.timestamp DESC", HRActivityLog.class);
             return query.getResultList();
         } finally {
             em.close();
@@ -44,7 +44,7 @@ public class HRActivityLogDAO {
         EntityManager em = DBConnection.getEntityManager();
         try {
             TypedQuery<HRActivityLog> query = em.createQuery(
-                "SELECT l FROM HRActivityLog l WHERE l.hrUser.userId = :userId ORDER BY l.timestamp DESC", 
+                "SELECT l FROM HRActivityLog l JOIN FETCH l.hrUser WHERE l.hrUser.userId = :userId ORDER BY l.timestamp DESC", 
                 HRActivityLog.class);
             query.setParameter("userId", userId);
             return query.getResultList();
@@ -57,7 +57,7 @@ public class HRActivityLogDAO {
         EntityManager em = DBConnection.getEntityManager();
         try {
             TypedQuery<HRActivityLog> query = em.createQuery(
-                "SELECT l FROM HRActivityLog l WHERE l.timestamp BETWEEN :startDate AND :endDate ORDER BY l.timestamp DESC", 
+                "SELECT l FROM HRActivityLog l JOIN FETCH l.hrUser WHERE l.timestamp BETWEEN :startDate AND :endDate ORDER BY l.timestamp DESC", 
                 HRActivityLog.class);
             query.setParameter("startDate", startDate);
             query.setParameter("endDate", endDate);

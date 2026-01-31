@@ -33,7 +33,7 @@ public class AttendanceDAO {
         EntityManager em = DBConnection.getEntityManager();
         try {
             TypedQuery<AttendanceEntity> query = em.createQuery(
-                "SELECT a FROM AttendanceEntity a ORDER BY a.date DESC", AttendanceEntity.class);
+                "SELECT a FROM AttendanceEntity a JOIN FETCH a.worker ORDER BY a.date DESC", AttendanceEntity.class);
             return query.getResultList();
         } finally {
             em.close();
@@ -44,7 +44,7 @@ public class AttendanceDAO {
         EntityManager em = DBConnection.getEntityManager();
         try {
             TypedQuery<AttendanceEntity> query = em.createQuery(
-                "SELECT a FROM AttendanceEntity a WHERE a.worker.workerId = :workerId ORDER BY a.date DESC", 
+                "SELECT a FROM AttendanceEntity a JOIN FETCH a.worker WHERE a.worker.workerId = :workerId ORDER BY a.date DESC", 
                 AttendanceEntity.class);
             query.setParameter("workerId", workerId);
             return query.getResultList();
@@ -57,7 +57,7 @@ public class AttendanceDAO {
         EntityManager em = DBConnection.getEntityManager();
         try {
             TypedQuery<AttendanceEntity> query = em.createQuery(
-                "SELECT a FROM AttendanceEntity a WHERE a.date BETWEEN :startDate AND :endDate ORDER BY a.date DESC", 
+                "SELECT a FROM AttendanceEntity a JOIN FETCH a.worker WHERE a.date BETWEEN :startDate AND :endDate ORDER BY a.date DESC", 
                 AttendanceEntity.class);
             query.setParameter("startDate", startDate);
             query.setParameter("endDate", endDate);
@@ -71,7 +71,7 @@ public class AttendanceDAO {
         EntityManager em = DBConnection.getEntityManager();
         try {
             TypedQuery<AttendanceEntity> query = em.createQuery(
-                "SELECT a FROM AttendanceEntity a WHERE a.worker.workerId = :workerId " +
+                "SELECT a FROM AttendanceEntity a JOIN FETCH a.worker WHERE a.worker.workerId = :workerId " +
                 "AND a.date BETWEEN :startDate AND :endDate ORDER BY a.date DESC", 
                 AttendanceEntity.class);
             query.setParameter("workerId", workerId);

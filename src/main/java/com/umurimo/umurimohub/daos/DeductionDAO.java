@@ -33,7 +33,7 @@ public class DeductionDAO {
         EntityManager em = DBConnection.getEntityManager();
         try {
             TypedQuery<DeductionEntity> query = em.createQuery(
-                "SELECT d FROM DeductionEntity d ORDER BY d.date DESC", DeductionEntity.class);
+                "SELECT d FROM DeductionEntity d JOIN FETCH d.worker ORDER BY d.date DESC", DeductionEntity.class);
             return query.getResultList();
         } finally {
             em.close();
@@ -44,7 +44,7 @@ public class DeductionDAO {
         EntityManager em = DBConnection.getEntityManager();
         try {
             TypedQuery<DeductionEntity> query = em.createQuery(
-                "SELECT d FROM DeductionEntity d WHERE d.worker.workerId = :workerId ORDER BY d.date DESC", 
+                "SELECT d FROM DeductionEntity d JOIN FETCH d.worker WHERE d.worker.workerId = :workerId ORDER BY d.date DESC", 
                 DeductionEntity.class);
             query.setParameter("workerId", workerId);
             return query.getResultList();
@@ -57,7 +57,7 @@ public class DeductionDAO {
         EntityManager em = DBConnection.getEntityManager();
         try {
             TypedQuery<DeductionEntity> query = em.createQuery(
-                "SELECT d FROM DeductionEntity d WHERE d.date BETWEEN :startDate AND :endDate ORDER BY d.date DESC", 
+                "SELECT d FROM DeductionEntity d JOIN FETCH d.worker WHERE d.date BETWEEN :startDate AND :endDate ORDER BY d.date DESC", 
                 DeductionEntity.class);
             query.setParameter("startDate", startDate);
             query.setParameter("endDate", endDate);

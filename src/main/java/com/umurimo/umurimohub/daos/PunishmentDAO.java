@@ -33,7 +33,7 @@ public class PunishmentDAO {
         EntityManager em = DBConnection.getEntityManager();
         try {
             TypedQuery<PunishmentEntity> query = em.createQuery(
-                "SELECT p FROM PunishmentEntity p ORDER BY p.date DESC", PunishmentEntity.class);
+                "SELECT p FROM PunishmentEntity p JOIN FETCH p.worker ORDER BY p.date DESC", PunishmentEntity.class);
             return query.getResultList();
         } finally {
             em.close();
@@ -44,7 +44,7 @@ public class PunishmentDAO {
         EntityManager em = DBConnection.getEntityManager();
         try {
             TypedQuery<PunishmentEntity> query = em.createQuery(
-                "SELECT p FROM PunishmentEntity p WHERE p.worker.workerId = :workerId ORDER BY p.date DESC", 
+                "SELECT p FROM PunishmentEntity p JOIN FETCH p.worker WHERE p.worker.workerId = :workerId ORDER BY p.date DESC", 
                 PunishmentEntity.class);
             query.setParameter("workerId", workerId);
             return query.getResultList();
@@ -57,7 +57,7 @@ public class PunishmentDAO {
         EntityManager em = DBConnection.getEntityManager();
         try {
             TypedQuery<PunishmentEntity> query = em.createQuery(
-                "SELECT p FROM PunishmentEntity p WHERE p.date BETWEEN :startDate AND :endDate ORDER BY p.date DESC", 
+                "SELECT p FROM PunishmentEntity p JOIN FETCH p.worker WHERE p.date BETWEEN :startDate AND :endDate ORDER BY p.date DESC", 
                 PunishmentEntity.class);
             query.setParameter("startDate", startDate);
             query.setParameter("endDate", endDate);
