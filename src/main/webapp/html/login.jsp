@@ -5,14 +5,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - UmurimoHub</title>
+    <title>Login  UmurimoHub</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
     <div class="form-container">
-        <div style="text-align: center; margin-bottom: 2rem;">
-            <img src="${pageContext.request.contextPath}/assets/logo.png" alt="UmurimoHub Logo" style="height: 80px; margin-bottom: 1rem;">
-            <h1 style="color: #667eea;">UmurimoHub</h1>
+        <div style="text-align: center; margin-bottom: 1rem;">
+            <img src="${pageContext.request.contextPath}/assets/logo.png" alt="UmurimoHub Logo" style="height: 130px; margin-bottom: 1rem;">
+            <p style="color: #00f;">Work is key to success and richness</p>
             <h2>Login</h2>
         </div>
 
