@@ -9,8 +9,8 @@ import java.util.Properties;
 public class EmailUtil {
     private static final String SMTP_HOST = "smtp.gmail.com";
     private static final String SMTP_PORT = "587";
-    private static final String SMTP_USER = "isaprecieux112@gmailcom";
-    private static final String SMTP_PASSWORD = "zqpzstykybijehop";
+    private static final String SMTP_USER = "ntwaliyanis@gmail.com";
+    private static final String SMTP_PASSWORD = "slcalfczpjjuwgel";
 
     public static boolean sendEmail(String to, String subject, String body) {
         try {
