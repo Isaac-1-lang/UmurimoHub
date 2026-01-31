@@ -82,7 +82,7 @@ public class HRWorker extends HttpServlet {
                         "Created worker: " + firstName + " " + lastName + " (" + email + ")");
                 }
                 
-                request.setAttribute("success", "Worker created successfully. An email with credentials has been sent (if email service is configured).");
+                request.setAttribute("success", "Worker created successfully. An email with credentials has been sent successfully..");
             } catch (Exception e) {
                 request.setAttribute("error", e.getMessage());
             }

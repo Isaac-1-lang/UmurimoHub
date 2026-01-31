@@ -64,7 +64,7 @@ public class CreateHR extends HttpServlet {
 
         try {
             userService.createHR(firstName, lastName, email, userId);
-            request.setAttribute("success", "HR account created successfully. An email with credentials has been sent (if email service is configured).");
+            request.setAttribute("success", "HR account created successfully. An email with credentials has been sent successfully..");
         } catch (Exception e) {
             request.setAttribute("error", e.getMessage());
         }
