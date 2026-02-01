@@ -15,9 +15,10 @@
         
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/umurimohub"/>
-            <property name="jakarta.persistence.jdbc.user" value="postgres"/>
-            <property name="jakarta.persistence.jdbc.password" value="121402pr0732021"/>
+            <!-- Credentials are now loaded via environment variables in DBConnection.java -->
+            <!-- <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/umurimohub"/> -->
+            <!-- <property name="jakarta.persistence.jdbc.user" value="postgres"/> -->
+            <!-- <property name="jakarta.persistence.jdbc.password" value="121402pr0732021"/> -->
             
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
