@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login  UmurimoHub</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="icon" href="${pageContext.request.contextPath}/assets/logo.png">
 </head>
 <body>
     <div class="form-container">
