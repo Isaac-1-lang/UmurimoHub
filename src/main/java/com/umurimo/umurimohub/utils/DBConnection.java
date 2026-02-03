@@ -28,6 +28,14 @@ public class DBConnection {
             if (dbPassword == null)
                 dbPassword = System.getenv("DB_PASSWORD");
 
+            // Hard fallback for local development if environment variables are missing
+            if (dbUrl == null)
+                dbUrl = "jdbc:postgresql://localhost:5432/umurimohub";
+            if (dbUser == null)
+                dbUser = "postgres";
+            if (dbPassword == null)
+                dbPassword = "121402pr0732021";
+
             if (dbUrl != null)
                 properties.put("jakarta.persistence.jdbc.url", dbUrl);
             if (dbUser != null)
