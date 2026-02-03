@@ -12,10 +12,10 @@ body {
 }
 
 .main-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #667eea;
     color: white;
     padding: 1rem 2rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px;
 }
 
 .header-content {
@@ -33,7 +33,7 @@ body {
 }
 
 .logo {
-    height: 50px;
+    height: 100px;
     width: auto;
 }
 
