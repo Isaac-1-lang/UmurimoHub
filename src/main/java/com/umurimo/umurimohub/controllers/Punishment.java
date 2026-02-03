@@ -14,6 +14,13 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
+/**
+ * @author Isaac-1-lang
+ * @version 0.0.1
+ */
+
+
 @WebServlet(name = "Punishment", value = "/Punishment")
 public class Punishment extends HttpServlet {
     private PunishmentService punishmentService = new PunishmentService();

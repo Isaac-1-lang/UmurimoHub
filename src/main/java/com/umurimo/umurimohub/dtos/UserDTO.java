@@ -2,6 +2,13 @@ package com.umurimo.umurimohub.dtos;
 
 import java.util.Date;
 
+
+
+/**
+ * @author Isaac-1-lang
+ * @version 0.0.1
+ */
+
 public class UserDTO {
     private String userId;
     private String firstName;

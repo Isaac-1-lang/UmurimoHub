@@ -11,6 +11,12 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
+
+/**
+ * @author Isaac-1-lang
+ * @version 0.0.1
+ */
+
 @WebServlet(name = "HRWorker", value = "/HRWorker")
 public class HRWorker extends HttpServlet {
     private WorkerService workerService = new WorkerService();

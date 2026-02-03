@@ -11,6 +11,14 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
+
+
+/**
+ * @author Isaac-1-lang
+ * @version 0.0.1
+ */
+
+
 @WebServlet(name = "Register", value = "/Register")
 public class Register extends HttpServlet {
     private UserService userService = new UserService();

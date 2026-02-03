@@ -10,6 +10,12 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
+
+/**
+ * @author Isaac-1-lang
+ * @version 0.0.1
+ */
+
 @WebServlet(name = "CreateHR", value = "/CreateHR")
 public class CreateHR extends HttpServlet {
     private UserService userService = new UserService();

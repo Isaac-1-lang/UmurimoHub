@@ -2,6 +2,12 @@ package com.umurimo.umurimohub.dtos;
 
 import java.util.Date;
 
+
+/**
+ * @author Isaac-1-lang
+ * @version 0.0.1
+ */
+
 public class AttendanceDTO {
     private String id;
     private Date date;

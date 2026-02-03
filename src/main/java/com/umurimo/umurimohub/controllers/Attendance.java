@@ -13,6 +13,10 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+/**
+ * @author Isaac-1-lang
+ * @version 0.0.1
+ */
 
 @WebServlet(name = "Attendance", value = "/Attendance")
 public class Attendance extends HttpServlet {

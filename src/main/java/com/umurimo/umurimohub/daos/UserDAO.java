@@ -8,6 +8,14 @@ import jakarta.persistence.TypedQuery;
 
 import java.util.List;
 
+
+
+/**
+ * @author Isaac-1-lang
+ * @version 0.0.1
+ */
+
+
 public class UserDAO {
     public void save(UserEntity user) {
         EntityManager em = DBConnection.getEntityManager();

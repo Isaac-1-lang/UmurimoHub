@@ -8,6 +8,15 @@ import jakarta.persistence.TypedQuery;
 import java.util.Date;
 import java.util.List;
 
+
+/**
+ * @author Isaac-1-lang
+ * @version 0.0.1
+ */
+
+
+
+
 public class DeductionDAO {
     public void save(DeductionEntity deduction) {
         EntityManager em = DBConnection.getEntityManager();
