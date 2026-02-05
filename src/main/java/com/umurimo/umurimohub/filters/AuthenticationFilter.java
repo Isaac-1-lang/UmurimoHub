@@ -8,14 +8,45 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebFilter(filterName = "AuthenticationFilter", urlPatterns = {"/html/*", "/Register", "/Login", "/HRWorker", 
-    "/Attendance", "/Deduction", "/Punishment", "/CEOSummary", "/WorkerProfile", "/CreateHR", "/ChangePassword"})
+/**
+ * AuthenticationFilter
+ *
+ * Security filter responsible for enforcing authentication and role-based
+ * access control (RBAC).
+ * Intercepts requests to protected resources and verifies user session and role
+ * privileges.
+ * Redirects unauthenticated users to login and denies access to unauthorized
+ * roles.
+ *
+ * @author Isaac-1-lang
+ * @version 1.0
+ * @since 2024
+ */
+@WebFilter(filterName = "AuthenticationFilter", urlPatterns = { "/html/*", "/Register", "/Login", "/HRWorker",
+        "/Attendance", "/Deduction", "/Punishment", "/CEOSummary", "/WorkerProfile", "/CreateHR", "/ChangePassword" })
 public class AuthenticationFilter implements Filter {
 
+    /**
+     * Initializes the filter configuration.
+     *
+     * @param filterConfig the filter configuration object
+     * @throws ServletException if initialization fails
+     */
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
     }
 
+    /**
+     * Filters incoming requests to enforce security policies.
+     * Checks for active session and valid role permissions for the requested
+     * resource.
+     *
+     * @param request  the ServletRequest object
+     * @param response the ServletResponse object
+     * @param chain    the FilterChain for invoking the next filter or resource
+     * @throws IOException      if an I/O error occurs
+     * @throws ServletException if a servlet processing error occurs
+     */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
@@ -28,8 +59,8 @@ public class AuthenticationFilter implements Filter {
         String relativePath = path.substring(contextPath.length());
 
         // Allow access to login and register pages without authentication
-        if (relativePath.equals("/Login") || relativePath.equals("/Register") || 
-            relativePath.equals("/") || relativePath.equals("/index.jsp")) {
+        if (relativePath.equals("/Login") || relativePath.equals("/Register") ||
+                relativePath.equals("/") || relativePath.equals("/index.jsp")) {
             chain.doFilter(request, response);
             return;
         }
@@ -41,7 +72,7 @@ public class AuthenticationFilter implements Filter {
         }
 
         String userRole = (String) session.getAttribute("role");
-        
+
         // Role-based access control
         if (relativePath.startsWith("/CEOSummary") && !"CEO".equals(userRole)) {
             httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Access denied");
@@ -58,9 +89,9 @@ public class AuthenticationFilter implements Filter {
             return;
         }
 
-        if ((relativePath.startsWith("/HRWorker") || relativePath.startsWith("/Attendance") || 
-             relativePath.startsWith("/Deduction") || relativePath.startsWith("/Punishment")) 
-            && !"HR".equals(userRole) && !"CEO".equals(userRole)) {
+        if ((relativePath.startsWith("/HRWorker") || relativePath.startsWith("/Attendance") ||
+                relativePath.startsWith("/Deduction") || relativePath.startsWith("/Punishment"))
+                && !"HR".equals(userRole) && !"CEO".equals(userRole)) {
             httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Access denied");
             return;
         }
@@ -73,6 +104,10 @@ public class AuthenticationFilter implements Filter {
         chain.doFilter(request, response);
     }
 
+    /**
+     * Called by the web container to indicate to a filter that it is being taken
+     * out of service.
+     */
     @Override
     public void destroy() {
     }

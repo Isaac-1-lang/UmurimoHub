@@ -4,15 +4,39 @@ import java.io.*;
 
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
+/**
+ * HelloServlet
+ *
+ * Simple servlet for testing server connectivity and response.
+ * Displays a "Hello World" message HTML page.
+ *
+ * @author Isaac-1-lang
+ * @version 1.0
+ * @since 2024
+ */
 @WebServlet(name = "helloServlet", value = "/hello-servlet")
 public class HelloServlet extends HttpServlet {
     private String message;
 
+    /**
+     * Initializes the servlet and sets the initial message.
+     */
     public void init() {
         message = "Hello World!";
     }
 
+    /**
+     * Handles HTTP GET requests.
+     * Writes a simple HTML response containing the welcome message.
+     *
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws IOException if an I/O error occurs
+     */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
 
@@ -23,6 +47,17 @@ public class HelloServlet extends HttpServlet {
         out.println("</body></html>");
     }
 
-    public void destroy() {
+    /**
+     * Called by the web container to indicate to a servlet that the servlet is
+     * being taken out of service.
+     */
+    public int sum(int a,int b) {
+        return a+b;
     }
+
+    @Test
+    public void test() {
+        assertEquals(5,sum(2,3));
+    }
+
 }

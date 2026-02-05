@@ -13,13 +13,33 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
+/**
+ * Login Servlet
+ *
+ * Controller for user authentication.
+ * Handles login requests for all user types (CEO, HR, Worker) and routes them
+ * to their respective dashboards upon successful authentication.
+ *
+ * @author Isaac-1-lang
+ * @version 1.0
+ * @since 2024
+ */
 @WebServlet(name = "Login", value = "/Login")
 public class Login extends HttpServlet {
     private UserService userService = new UserService();
     private WorkerService workerService = new WorkerService();
 
+    /**
+     * Handles HTTP GET requests.
+     * Displays the login page or redirects logged-in users to their dashboard.
+     *
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
+     */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session != null && session.getAttribute("user") != null) {
@@ -39,8 +59,17 @@ public class Login extends HttpServlet {
         }
     }
 
+    /**
+     * Handles HTTP POST requests.
+     * Processes login credentials and initiates user sessions.
+     *
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
+     */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -60,13 +89,13 @@ public class Login extends HttpServlet {
             session.setAttribute("role", user.getRole());
             session.setAttribute("firstName", user.getFirstName());
             session.setAttribute("lastName", user.getLastName());
-            
+
             // Check if HR needs to change password
             if ("HR".equals(user.getRole()) && !user.getPasswordChanged()) {
                 response.sendRedirect(request.getContextPath() + "/html/change-password.jsp");
                 return;
             }
-            
+
             if ("CEO".equals(user.getRole())) {
                 response.sendRedirect(request.getContextPath() + "/html/ceo-dashboard.jsp");
             } else {
@@ -84,7 +113,7 @@ public class Login extends HttpServlet {
             session.setAttribute("role", "WORKER");
             session.setAttribute("firstName", worker.getFirstName());
             session.setAttribute("lastName", worker.getLastName());
-            
+
             response.sendRedirect(request.getContextPath() + "/html/worker-dashboard.jsp");
             return;
         }

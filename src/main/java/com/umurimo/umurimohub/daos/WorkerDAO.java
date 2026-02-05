@@ -8,7 +8,25 @@ import jakarta.persistence.TypedQuery;
 
 import java.util.List;
 
+/**
+ * WorkerDAO
+ *
+ * Data Access Object for Worker entities.
+ * Facilitates database operations for workers, including registration (save),
+ * authentication support (findByEmail), retrieval (all, by status), and
+ * management.
+ *
+ * @author Isaac-1-lang
+ * @version 1.0
+ * @since 2024
+ */
 public class WorkerDAO {
+
+    /**
+     * Persists a new worker record to the database.
+     *
+     * @param worker the worker entity to save
+     */
     public void save(WorkerEntity worker) {
         EntityManager em = DBConnection.getEntityManager();
         try {
@@ -20,6 +38,12 @@ public class WorkerDAO {
         }
     }
 
+    /**
+     * Finds a worker record by its ID.
+     *
+     * @param workerId the worker ID
+     * @return the found WorkerEntity, or null if not found
+     */
     public WorkerEntity findById(String workerId) {
         EntityManager em = DBConnection.getEntityManager();
         try {
@@ -29,11 +53,18 @@ public class WorkerDAO {
         }
     }
 
+    /**
+     * Finds a worker by their email address.
+     * Used primarily for authentication.
+     *
+     * @param email the email address to search for
+     * @return the found WorkerEntity, or null if not found
+     */
     public WorkerEntity findByEmail(String email) {
         EntityManager em = DBConnection.getEntityManager();
         try {
             TypedQuery<WorkerEntity> query = em.createQuery(
-                "SELECT w FROM WorkerEntity w WHERE w.email = :email", WorkerEntity.class);
+                    "SELECT w FROM WorkerEntity w WHERE w.email = :email", WorkerEntity.class);
             query.setParameter("email", email);
             return query.getSingleResult();
         } catch (NoResultException e) {
@@ -43,22 +74,33 @@ public class WorkerDAO {
         }
     }
 
+    /**
+     * Retrieves all worker records ordered by hire date descending.
+     *
+     * @return a list of all worker entities
+     */
     public List<WorkerEntity> findAll() {
         EntityManager em = DBConnection.getEntityManager();
         try {
             TypedQuery<WorkerEntity> query = em.createQuery(
-                "SELECT w FROM WorkerEntity w ORDER BY w.hireDate DESC", WorkerEntity.class);
+                    "SELECT w FROM WorkerEntity w ORDER BY w.hireDate DESC", WorkerEntity.class);
             return query.getResultList();
         } finally {
             em.close();
         }
     }
 
+    /**
+     * Retrieves workers with a specific status.
+     *
+     * @param status the status to filter by (e.g., "ACTIVE")
+     * @return a list of worker entities with the specified status
+     */
     public List<WorkerEntity> findByStatus(String status) {
         EntityManager em = DBConnection.getEntityManager();
         try {
             TypedQuery<WorkerEntity> query = em.createQuery(
-                "SELECT w FROM WorkerEntity w WHERE w.status = :status", WorkerEntity.class);
+                    "SELECT w FROM WorkerEntity w WHERE w.status = :status", WorkerEntity.class);
             query.setParameter("status", status);
             return query.getResultList();
         } finally {
@@ -66,6 +108,11 @@ public class WorkerDAO {
         }
     }
 
+    /**
+     * Updates an existing worker record.
+     *
+     * @param worker the worker entity to update
+     */
     public void update(WorkerEntity worker) {
         EntityManager em = DBConnection.getEntityManager();
         try {
@@ -77,6 +124,11 @@ public class WorkerDAO {
         }
     }
 
+    /**
+     * Deletes a worker record by its ID.
+     *
+     * @param workerId the ID of the worker record to delete
+     */
     public void delete(String workerId) {
         EntityManager em = DBConnection.getEntityManager();
         try {
@@ -91,11 +143,17 @@ public class WorkerDAO {
         }
     }
 
+    /**
+     * Checks if a worker with the given email exists.
+     *
+     * @param email the email address to check
+     * @return true if a worker with the email exists, false otherwise
+     */
     public boolean emailExists(String email) {
         EntityManager em = DBConnection.getEntityManager();
         try {
             TypedQuery<Long> query = em.createQuery(
-                "SELECT COUNT(w) FROM WorkerEntity w WHERE w.email = :email", Long.class);
+                    "SELECT COUNT(w) FROM WorkerEntity w WHERE w.email = :email", Long.class);
             query.setParameter("email", email);
             return query.getSingleResult() > 0;
         } finally {

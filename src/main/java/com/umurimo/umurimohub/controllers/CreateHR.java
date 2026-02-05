@@ -10,12 +10,33 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
+/**
+ * CreateHR Servlet
+ *
+ * Controller for creating new HR User accounts.
+ * Allows the CEO to register new HR personnel, triggering automated email
+ * credential delivery.
+ * Only accessible by CEO users.
+ *
+ * @author Isaac-1-lang
+ * @version 1.0
+ * @since 2024
+ */
 @WebServlet(name = "CreateHR", value = "/CreateHR")
 public class CreateHR extends HttpServlet {
     private UserService userService = new UserService();
 
+    /**
+     * Handles HTTP GET requests.
+     * Displays the HR creation form and a list of existing HR users.
+     *
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
+     */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("user") == null) {
@@ -33,8 +54,17 @@ public class CreateHR extends HttpServlet {
         request.getRequestDispatcher("/html/create-hr.jsp").forward(request, response);
     }
 
+    /**
+     * Handles HTTP POST requests.
+     * Processes form submissions to create a new HR user.
+     *
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
+     */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("user") == null) {
@@ -54,8 +84,8 @@ public class CreateHR extends HttpServlet {
         String userId = (String) session.getAttribute("userId");
 
         if (firstName == null || firstName.trim().isEmpty() ||
-            lastName == null || lastName.trim().isEmpty() ||
-            email == null || email.trim().isEmpty()) {
+                lastName == null || lastName.trim().isEmpty() ||
+                email == null || email.trim().isEmpty()) {
             request.setAttribute("error", "All fields are required");
             request.setAttribute("hrUsers", userService.getAllHRUsers());
             request.getRequestDispatcher("/html/create-hr.jsp").forward(request, response);
@@ -64,7 +94,8 @@ public class CreateHR extends HttpServlet {
 
         try {
             userService.createHR(firstName, lastName, email, userId);
-            request.setAttribute("success", "HR account created successfully. An email with credentials has been sent successfully..");
+            request.setAttribute("success",
+                    "HR account created successfully. An email with credentials has been sent successfully..");
         } catch (Exception e) {
             request.setAttribute("error", e.getMessage());
         }

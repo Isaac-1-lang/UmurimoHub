@@ -8,7 +8,25 @@ import jakarta.persistence.TypedQuery;
 
 import java.util.List;
 
+/**
+ * UserDAO
+ *
+ * Data Access Object for User entities.
+ * Manages database operations for system users (CEO, HR), including
+ * authentication support
+ * (findByEmail), CRUD operations, and existence checks.
+ *
+ * @author Isaac-1-lang
+ * @version 1.0
+ * @since 2024
+ */
 public class UserDAO {
+
+    /**
+     * Persists a new user record to the database.
+     *
+     * @param user the user entity to save
+     */
     public void save(UserEntity user) {
         EntityManager em = DBConnection.getEntityManager();
         try {
@@ -20,6 +38,12 @@ public class UserDAO {
         }
     }
 
+    /**
+     * Finds a user record by its ID.
+     *
+     * @param userId the user ID
+     * @return the found UserEntity, or null if not found
+     */
     public UserEntity findById(String userId) {
         EntityManager em = DBConnection.getEntityManager();
         try {
@@ -29,11 +53,18 @@ public class UserDAO {
         }
     }
 
+    /**
+     * Finds a user by their email address.
+     * Used primarily for authentication.
+     *
+     * @param email the email address to search for
+     * @return the found UserEntity, or null if not found
+     */
     public UserEntity findByEmail(String email) {
         EntityManager em = DBConnection.getEntityManager();
         try {
             TypedQuery<UserEntity> query = em.createQuery(
-                "SELECT u FROM UserEntity u WHERE u.email = :email", UserEntity.class);
+                    "SELECT u FROM UserEntity u WHERE u.email = :email", UserEntity.class);
             query.setParameter("email", email);
             return query.getSingleResult();
         } catch (NoResultException e) {
@@ -43,22 +74,33 @@ public class UserDAO {
         }
     }
 
+    /**
+     * Retrieves all user records.
+     *
+     * @return a list of all user entities
+     */
     public List<UserEntity> findAll() {
         EntityManager em = DBConnection.getEntityManager();
         try {
             TypedQuery<UserEntity> query = em.createQuery(
-                "SELECT u FROM UserEntity u", UserEntity.class);
+                    "SELECT u FROM UserEntity u", UserEntity.class);
             return query.getResultList();
         } finally {
             em.close();
         }
     }
 
+    /**
+     * Retrieves users with a specific role.
+     *
+     * @param role the role to filter by (e.g., "HR")
+     * @return a list of user entities with the specified role
+     */
     public List<UserEntity> findByRole(String role) {
         EntityManager em = DBConnection.getEntityManager();
         try {
             TypedQuery<UserEntity> query = em.createQuery(
-                "SELECT u FROM UserEntity u WHERE u.role = :role", UserEntity.class);
+                    "SELECT u FROM UserEntity u WHERE u.role = :role", UserEntity.class);
             query.setParameter("role", role);
             return query.getResultList();
         } finally {
@@ -66,6 +108,11 @@ public class UserDAO {
         }
     }
 
+    /**
+     * Updates an existing user record.
+     *
+     * @param user the user entity to update
+     */
     public void update(UserEntity user) {
         EntityManager em = DBConnection.getEntityManager();
         try {
@@ -77,6 +124,11 @@ public class UserDAO {
         }
     }
 
+    /**
+     * Deletes a user record by its ID.
+     *
+     * @param userId the ID of the user record to delete
+     */
     public void delete(String userId) {
         EntityManager em = DBConnection.getEntityManager();
         try {
@@ -91,11 +143,17 @@ public class UserDAO {
         }
     }
 
+    /**
+     * Checks if a user with the given email exists.
+     *
+     * @param email the email address to check
+     * @return true if a user with the email exists, false otherwise
+     */
     public boolean emailExists(String email) {
         EntityManager em = DBConnection.getEntityManager();
         try {
             TypedQuery<Long> query = em.createQuery(
-                "SELECT COUNT(u) FROM UserEntity u WHERE u.email = :email", Long.class);
+                    "SELECT COUNT(u) FROM UserEntity u WHERE u.email = :email", Long.class);
             query.setParameter("email", email);
             return query.getSingleResult() > 0;
         } finally {

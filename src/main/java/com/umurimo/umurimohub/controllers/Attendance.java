@@ -14,14 +14,36 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Attendance Servlet
+ *
+ * Controller responsible for managing worker attendance records.
+ * Handles both viewing attendance history (GET) and recording new attendance
+ * entries (POST).
+ * Only accessible by HR and CEO users.
+ *
+ * @author Isaac-1-lang
+ * @version 1.0
+ * @since 2024
+ */
 @WebServlet(name = "Attendance", value = "/Attendance")
 public class Attendance extends HttpServlet {
     private AttendaceService attendanceService = new AttendaceService();
     private WorkerService workerService = new WorkerService();
     private HRActivityLogService activityLogService = new HRActivityLogService();
 
+    /**
+     * Handles HTTP GET requests.
+     * Displays the attendance management page with a list of active workers and
+     * attendance records.
+     *
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
+     */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("user") == null) {
@@ -40,8 +62,17 @@ public class Attendance extends HttpServlet {
         request.getRequestDispatcher("/html/attendance.jsp").forward(request, response);
     }
 
+    /**
+     * Handles HTTP POST requests.
+     * Processes the creation of new attendance records and logs the activity.
+     *
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
+     */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("user") == null) {
@@ -64,8 +95,8 @@ public class Attendance extends HttpServlet {
             String status = request.getParameter("status");
             String remarks = request.getParameter("remarks");
 
-            if (workerId == null || workerId.trim().isEmpty() || 
-                status == null || status.trim().isEmpty()) {
+            if (workerId == null || workerId.trim().isEmpty() ||
+                    status == null || status.trim().isEmpty()) {
                 request.setAttribute("error", "Worker and status are required");
                 request.setAttribute("workers", workerService.getActiveWorkers());
                 request.setAttribute("attendances", attendanceService.getAllAttendance());
@@ -83,14 +114,14 @@ public class Attendance extends HttpServlet {
                 }
 
                 attendanceService.createAttendance(workerId, date, status, remarks);
-                
+
                 // Log HR activity
                 if (userId != null) {
-                    activityLogService.logActivity(userId, 
-                        "Recorded attendance", 
-                        "Recorded attendance for worker ID: " + workerId + ", Status: " + status);
+                    activityLogService.logActivity(userId,
+                            "Recorded attendance",
+                            "Recorded attendance for worker ID: " + workerId + ", Status: " + status);
                 }
-                
+
                 request.setAttribute("success", "Attendance recorded successfully");
             } catch (Exception e) {
                 request.setAttribute("error", e.getMessage());

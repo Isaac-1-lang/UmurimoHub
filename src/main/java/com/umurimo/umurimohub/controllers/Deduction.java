@@ -14,14 +14,37 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Deduction Servlet
+ *
+ * Controller for managing worker deductions.
+ * Provides functionality for listing deductions (GET) and creating new
+ * deduction records (POST).
+ * Logs all deduction creation activities for audit purposes.
+ * Only accessible by HR and CEO users.
+ *
+ * @author Isaac-1-lang
+ * @version 1.0
+ * @since 2024
+ */
 @WebServlet(name = "Deduction", value = "/Deduction")
 public class Deduction extends HttpServlet {
     private DeductionService deductionService = new DeductionService();
     private WorkerService workerService = new WorkerService();
     private HRActivityLogService activityLogService = new HRActivityLogService();
 
+    /**
+     * Handles HTTP GET requests.
+     * Displays the deductions management page with a list of active workers and
+     * deduction records.
+     *
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
+     */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("user") == null) {
@@ -40,8 +63,17 @@ public class Deduction extends HttpServlet {
         request.getRequestDispatcher("/html/deductions.jsp").forward(request, response);
     }
 
+    /**
+     * Handles HTTP POST requests.
+     * Processes new deduction entries, validates input, and logs the action.
+     *
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
+     */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("user") == null) {
@@ -64,8 +96,8 @@ public class Deduction extends HttpServlet {
             String reason = request.getParameter("reason");
             String dateStr = request.getParameter("date");
 
-            if (workerId == null || workerId.trim().isEmpty() || 
-                amountStr == null || amountStr.trim().isEmpty()) {
+            if (workerId == null || workerId.trim().isEmpty() ||
+                    amountStr == null || amountStr.trim().isEmpty()) {
                 request.setAttribute("error", "Worker and amount are required");
                 request.setAttribute("workers", workerService.getActiveWorkers());
                 request.setAttribute("deductions", deductionService.getAllDeductions());
@@ -82,14 +114,14 @@ public class Deduction extends HttpServlet {
                 }
 
                 deductionService.createDeduction(workerId, amount, reason, date);
-                
+
                 // Log HR activity
                 if (userId != null) {
-                    activityLogService.logActivity(userId, 
-                        "Created salary deduction", 
-                        "Created deduction for worker ID: " + workerId + ", Amount: " + amount);
+                    activityLogService.logActivity(userId,
+                            "Created salary deduction",
+                            "Created deduction for worker ID: " + workerId + ", Amount: " + amount);
                 }
-                
+
                 request.setAttribute("success", "Deduction created successfully");
             } catch (NumberFormatException e) {
                 request.setAttribute("error", "Invalid amount format");
