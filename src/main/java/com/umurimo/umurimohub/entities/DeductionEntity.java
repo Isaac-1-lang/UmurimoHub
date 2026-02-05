@@ -17,14 +17,23 @@ import java.util.Date;
 @Entity
 @Table(name = "deduction")
 public class DeductionEntity {
+    /**
+     * The unique identifier for the deduction.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "deduction_id")
     private Integer id;
 
+    /**
+     * The amount deducted from the worker's salary.
+     */
     @Column(name = "amount", nullable = false)
     private Integer amount;
 
+    /**
+     * The reason for the deduction.
+     */
     @Column(name = "reason", length = 500)
     private String reason;
 

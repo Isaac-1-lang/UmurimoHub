@@ -18,21 +18,36 @@ import java.util.Date;
 @Entity
 @Table(name = "hr_activity_log")
 public class HRActivityLog {
+    /**
+     * The unique identifier for the log entry.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "log_id")
     private String id;
 
+    /**
+     * The action performed by the HR user.
+     */
     @Column(name = "action", nullable = false, length = 500)
     private String action;
 
+    /**
+     * The timestamp when the action occurred.
+     */
     @Column(name = "timestamp", nullable = false)
     private Date timestamp;
 
+    /**
+     * The HR user who performed the action.
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity hrUser;
 
+    /**
+     * Additional details about the action.
+     */
     @Column(name = "details", length = 1000)
     private String details;
 
