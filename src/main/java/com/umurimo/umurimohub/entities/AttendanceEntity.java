@@ -14,6 +14,7 @@ import java.util.Date;
  * @author Isaac-1-lang
  * @version 1.0
  * @since 2026
+ * {@link WorkerEntity} the worker entity
  */
 @Entity
 @Table(name = "attendance")

@@ -16,10 +16,16 @@ import java.util.List;
  * @author Isaac-1-lang
  * @version 1.0
  * @since 2026
+ * @see com.umurimo.umurimohub.entities.HRActivityLog #getActivityLogs()
+ * @see com.umurimo.umurimohub.entities.HRActivityLog #setActivityLogs()  returns the HR log activities of the user  as HR
+ * @see <a href="https://github.com/Isaac-1-lang/umurimoHub">umurimoHub</a>
  */
 @Entity
 @Table(name = "users")
 public class UserEntity {
+    /**
+     * The unique identifier for the user.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "user_id")

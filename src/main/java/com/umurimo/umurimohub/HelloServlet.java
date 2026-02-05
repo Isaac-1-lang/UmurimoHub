@@ -4,9 +4,6 @@ import java.io.*;
 
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * HelloServlet
@@ -51,13 +48,5 @@ public class HelloServlet extends HttpServlet {
      * Called by the web container to indicate to a servlet that the servlet is
      * being taken out of service.
      */
-    public int sum(int a,int b) {
-        return a+b;
-    }
-
-    @Test
-    public void test() {
-        assertEquals(5,sum(2,3));
-    }
 
 }
