@@ -20,8 +20,17 @@ import jakarta.persistence.Persistence;
 public class DBConnection {
     private static EntityManagerFactory emf;
     private static final String PERSISTENCE_UNIT_NAME = "default";
+    /**
+     * The EntityManagerFactory instance.
+     * 
+     * @throws RuntimeException if EntityManagerFactory cannot be created
+     */
 
     static {
+        initialize(null);
+    }
+
+    public static void initialize(java.util.Map<String, String> overrides) {
         try {
             // Load environment variables
             io.github.cdimascio.dotenv.Dotenv dotenv = io.github.cdimascio.dotenv.Dotenv.configure().ignoreIfMissing()
@@ -55,6 +64,14 @@ public class DBConnection {
                 properties.put("jakarta.persistence.jdbc.user", dbUser);
             if (dbPassword != null)
                 properties.put("jakarta.persistence.jdbc.password", dbPassword);
+
+            // Apply overrides if any (useful for testing)
+            if (overrides != null) {
+                properties.putAll(overrides);
+            }
+
+            // Close existing EMF if open to avoid leaks when re-initializing
+            closeEntityManagerFactory();
 
             emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME, properties);
         } catch (Exception e) {
