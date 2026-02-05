@@ -32,11 +32,11 @@ build/
 !**/src/test/**/build/
 
 ### VS Code ###
-.vscode/
 
 ### Mac OS ###
 .DS_Store
 
 
 # Database credentials
-.env
+config.bat
+node_modules
