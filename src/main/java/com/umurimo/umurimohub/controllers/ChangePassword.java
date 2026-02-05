@@ -10,18 +10,32 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-
 /**
+ * ChangePassword Servlet
+ *
+ * Controller for handling password change requests, specifically for HR users.
+ * Enforces password updates on first login for HR personnel and allows
+ * subsequent updates.
+ *
  * @author Isaac-1-lang
- * @version 0.0.1
+ * @version 1.0
+ * @since 2024
  */
-
 @WebServlet(name = "ChangePassword", value = "/ChangePassword")
 public class ChangePassword extends HttpServlet {
     private UserService userService = new UserService();
 
+    /**
+     * Handles HTTP GET requests.
+     * Displays the change password form.
+     *
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
+     */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("user") == null) {
@@ -38,8 +52,18 @@ public class ChangePassword extends HttpServlet {
         request.getRequestDispatcher("/html/change-password.jsp").forward(request, response);
     }
 
+    /**
+     * Handles HTTP POST requests.
+     * Processes the password change submission, including validation of old/new
+     * passwords.
+     *
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
+     */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("user") == null) {
@@ -58,8 +82,8 @@ public class ChangePassword extends HttpServlet {
         String confirmPassword = request.getParameter("confirmPassword");
 
         if (oldPassword == null || oldPassword.trim().isEmpty() ||
-            newPassword == null || newPassword.trim().isEmpty() ||
-            confirmPassword == null || confirmPassword.trim().isEmpty()) {
+                newPassword == null || newPassword.trim().isEmpty() ||
+                confirmPassword == null || confirmPassword.trim().isEmpty()) {
             request.setAttribute("error", "All fields are required");
             request.getRequestDispatcher("/html/change-password.jsp").forward(request, response);
             return;

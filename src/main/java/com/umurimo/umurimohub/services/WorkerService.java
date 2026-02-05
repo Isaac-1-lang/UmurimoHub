@@ -9,11 +9,34 @@ import com.umurimo.umurimohub.utils.PasswordUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * WorkerService
+ *
+ * Service implementation for worker management.
+ * Handles worker lifecycle operations including registration, authentication,
+ * data retrieval (individual and bulk), and updates.
+ *
+ * @author Isaac-1-lang
+ * @version 1.0
+ * @since 2024
+ */
 public class WorkerService {
     private WorkerDAO workerDAO = new WorkerDAO();
 
-    public WorkerEntity createWorker(String firstName, String lastName, String email, 
-                                     String phoneNumber, Integer baseSalary) {
+    /**
+     * Registers a new worker.
+     * Generates a temporary password and emails credentials to the worker.
+     *
+     * @param firstName   the worker's first name
+     * @param lastName    the worker's last name
+     * @param email       the worker's email address
+     * @param phoneNumber the worker's phone number
+     * @param baseSalary  the worker's base salary
+     * @return the created WorkerEntity
+     * @throws RuntimeException if the email is already in use
+     */
+    public WorkerEntity createWorker(String firstName, String lastName, String email,
+            String phoneNumber, Integer baseSalary) {
         if (workerDAO.emailExists(email)) {
             throw new RuntimeException("Email already exists");
         }
@@ -40,6 +63,13 @@ public class WorkerService {
         return worker;
     }
 
+    /**
+     * Authenticates a worker based on email and password.
+     *
+     * @param email    the worker's email
+     * @param password the worker's plain text password
+     * @return the authenticated WorkerEntity, or null if authentication fails
+     */
     public WorkerEntity authenticate(String email, String password) {
         WorkerEntity worker = workerDAO.findByEmail(email);
         if (worker == null) {
@@ -57,14 +87,31 @@ public class WorkerService {
         return worker;
     }
 
+    /**
+     * Retrieves a worker by their ID.
+     *
+     * @param workerId the worker ID
+     * @return the WorkerEntity, or null if not found
+     */
     public WorkerEntity getWorkerById(String workerId) {
         return workerDAO.findById(workerId);
     }
 
+    /**
+     * Retrieves a worker by their email address.
+     *
+     * @param email the worker's email
+     * @return the WorkerEntity, or null if not found
+     */
     public WorkerEntity getWorkerByEmail(String email) {
         return workerDAO.findByEmail(email);
     }
 
+    /**
+     * Retrieves all workers in the system.
+     *
+     * @return a list of WorkerDTOs for all workers
+     */
     public List<WorkerDTO> getAllWorkers() {
         List<WorkerEntity> workers = workerDAO.findAll();
         List<WorkerDTO> dtos = new ArrayList<>();
@@ -83,6 +130,11 @@ public class WorkerService {
         return dtos;
     }
 
+    /**
+     * Retrieves all active workers.
+     *
+     * @return a list of WorkerDTOs for active workers
+     */
     public List<WorkerDTO> getActiveWorkers() {
         List<WorkerEntity> workers = workerDAO.findByStatus("ACTIVE");
         List<WorkerDTO> dtos = new ArrayList<>();
@@ -101,6 +153,11 @@ public class WorkerService {
         return dtos;
     }
 
+    /**
+     * Updates an existing worker record.
+     *
+     * @param worker the worker entity with updated values
+     */
     public void updateWorker(WorkerEntity worker) {
         workerDAO.update(worker);
     }
