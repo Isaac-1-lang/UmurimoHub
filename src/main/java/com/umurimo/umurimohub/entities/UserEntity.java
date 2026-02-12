@@ -25,6 +25,7 @@ public class UserEntity {
     @Column(name = "user_id")
     private String userId;
 
+
     @Column(name = "first_name")
     private String firstName;
 
@@ -51,6 +52,10 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "hrUser", cascade = CascadeType.ALL)
     private List<HRActivityLog> activityLogs;
+
+
+
+
 
     /**
      * Default constructor for UserEntity.
