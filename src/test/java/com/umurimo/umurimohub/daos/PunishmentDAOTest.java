@@ -43,7 +43,7 @@ public class PunishmentDAOTest {
   public void testSave() {
     PunishmentEntity punishment = new PunishmentEntity();
 
-    punishmentDAO.save(punishmentishment);
+    punishmentDAO.save(punishment);
 
     verify(transaction).begin();
     verify(entityManager).persist(punishment);

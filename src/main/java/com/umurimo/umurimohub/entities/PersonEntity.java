@@ -8,7 +8,6 @@ public class PersonEntity {
   private String firstName;
   private String lastName;
   private String email;
-  private Integer age;
   private String gender;
   public LocalDate dob;
 
@@ -20,7 +19,6 @@ public class PersonEntity {
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
-    this.age = age;
     this.gender = gender;
   }
 
@@ -81,13 +79,6 @@ public class PersonEntity {
   }
   public Integer getAgeInYears() {
     return LocalDate.now().getYear() - getDob().getYear();
-  }
-
-  public void setAge(Integer age) {
-    if (age < 18) {
-      throw new IllegalArgumentException("Age must be at least 18");
-    }
-    this.age = age;
   }
 
   public String getGender() {
