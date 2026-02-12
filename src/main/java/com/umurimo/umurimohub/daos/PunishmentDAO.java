@@ -27,8 +27,22 @@ public class PunishmentDAO {
      *
      * @param punishment the punishment entity to save
      */
+    /**
+     * Protected method to get EntityManager, allowed to be overridden for testing.
+     *
+     * @return the EntityManager
+     */
+    protected EntityManager getEntityManager() {
+        return DBConnection.getEntityManager();
+    }
+
+    /**
+     * Persists a new punishment record to the database.
+     *
+     * @param punishment the punishment entity to save
+     */
     public void save(PunishmentEntity punishment) {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
             em.persist(punishment);
@@ -45,7 +59,7 @@ public class PunishmentDAO {
      * @return the found PunishmentEntity, or null if not found
      */
     public PunishmentEntity findById(String id) {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             return em.find(PunishmentEntity.class, id);
         } finally {
@@ -59,7 +73,7 @@ public class PunishmentDAO {
      * @return a list of all punishment entities
      */
     public List<PunishmentEntity> findAll() {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             TypedQuery<PunishmentEntity> query = em.createQuery(
                     "SELECT p FROM PunishmentEntity p JOIN FETCH p.worker ORDER BY p.date DESC",
@@ -77,7 +91,7 @@ public class PunishmentDAO {
      * @return a list of punishment entities for the worker
      */
     public List<PunishmentEntity> findByWorkerId(String workerId) {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             TypedQuery<PunishmentEntity> query = em.createQuery(
                     "SELECT p FROM PunishmentEntity p JOIN FETCH p.worker WHERE p.worker.workerId = :workerId ORDER BY p.date DESC",
@@ -97,7 +111,7 @@ public class PunishmentDAO {
      * @return a list of punishment entities within the range
      */
     public List<PunishmentEntity> findByDateRange(Date startDate, Date endDate) {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             TypedQuery<PunishmentEntity> query = em.createQuery(
                     "SELECT p FROM PunishmentEntity p JOIN FETCH p.worker WHERE p.date BETWEEN :startDate AND :endDate ORDER BY p.date DESC",
@@ -116,7 +130,7 @@ public class PunishmentDAO {
      * @param punishment the punishment entity to update
      */
     public void update(PunishmentEntity punishment) {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
             em.merge(punishment);
@@ -132,7 +146,7 @@ public class PunishmentDAO {
      * @param id the ID of the punishment record to delete
      */
     public void delete(String id) {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
             PunishmentEntity punishment = em.find(PunishmentEntity.class, id);

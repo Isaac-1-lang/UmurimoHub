@@ -27,8 +27,22 @@ public class WorkerDAO {
      *
      * @param worker the worker entity to save
      */
+    /**
+     * Protected method to get EntityManager, allowed to be overridden for testing.
+     *
+     * @return the EntityManager
+     */
+    protected EntityManager getEntityManager() {
+        return DBConnection.getEntityManager();
+    }
+
+    /**
+     * Persists a new worker record to the database.
+     *
+     * @param worker the worker entity to save
+     */
     public void save(WorkerEntity worker) {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
             em.persist(worker);
@@ -45,7 +59,7 @@ public class WorkerDAO {
      * @return the found WorkerEntity, or null if not found
      */
     public WorkerEntity findById(String workerId) {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             return em.find(WorkerEntity.class, workerId);
         } finally {
@@ -61,7 +75,7 @@ public class WorkerDAO {
      * @return the found WorkerEntity, or null if not found
      */
     public WorkerEntity findByEmail(String email) {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             TypedQuery<WorkerEntity> query = em.createQuery(
                     "SELECT w FROM WorkerEntity w WHERE w.email = :email", WorkerEntity.class);
@@ -80,7 +94,7 @@ public class WorkerDAO {
      * @return a list of all worker entities
      */
     public List<WorkerEntity> findAll() {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             TypedQuery<WorkerEntity> query = em.createQuery(
                     "SELECT w FROM WorkerEntity w ORDER BY w.hireDate DESC", WorkerEntity.class);
@@ -97,7 +111,7 @@ public class WorkerDAO {
      * @return a list of worker entities with the specified status
      */
     public List<WorkerEntity> findByStatus(String status) {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             TypedQuery<WorkerEntity> query = em.createQuery(
                     "SELECT w FROM WorkerEntity w WHERE w.status = :status", WorkerEntity.class);
@@ -114,7 +128,7 @@ public class WorkerDAO {
      * @param worker the worker entity to update
      */
     public void update(WorkerEntity worker) {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
             em.merge(worker);
@@ -130,7 +144,7 @@ public class WorkerDAO {
      * @param workerId the ID of the worker record to delete
      */
     public void delete(String workerId) {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
             WorkerEntity worker = em.find(WorkerEntity.class, workerId);
@@ -150,7 +164,7 @@ public class WorkerDAO {
      * @return true if a worker with the email exists, false otherwise
      */
     public boolean emailExists(String email) {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             TypedQuery<Long> query = em.createQuery(
                     "SELECT COUNT(w) FROM WorkerEntity w WHERE w.email = :email", Long.class);

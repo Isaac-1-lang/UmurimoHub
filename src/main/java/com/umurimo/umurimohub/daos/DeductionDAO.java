@@ -27,8 +27,22 @@ public class DeductionDAO {
      *
      * @param deduction the deduction entity to save
      */
+    /**
+     * Protected method to get EntityManager, allowed to be overridden for testing.
+     *
+     * @return the EntityManager
+     */
+    protected EntityManager getEntityManager() {
+        return DBConnection.getEntityManager();
+    }
+
+    /**
+     * Persists a new deduction record to the database.
+     *
+     * @param deduction the deduction entity to save
+     */
     public void save(DeductionEntity deduction) {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
             em.persist(deduction);
@@ -45,7 +59,7 @@ public class DeductionDAO {
      * @return the found DeductionEntity, or null if not found
      */
     public DeductionEntity findById(Integer id) {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             return em.find(DeductionEntity.class, id);
         } finally {
@@ -59,7 +73,7 @@ public class DeductionDAO {
      * @return a list of all deduction entities
      */
     public List<DeductionEntity> findAll() {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             TypedQuery<DeductionEntity> query = em.createQuery(
                     "SELECT d FROM DeductionEntity d JOIN FETCH d.worker ORDER BY d.date DESC", DeductionEntity.class);
@@ -76,7 +90,7 @@ public class DeductionDAO {
      * @return a list of deduction entities for the worker
      */
     public List<DeductionEntity> findByWorkerId(String workerId) {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             TypedQuery<DeductionEntity> query = em.createQuery(
                     "SELECT d FROM DeductionEntity d JOIN FETCH d.worker WHERE d.worker.workerId = :workerId ORDER BY d.date DESC",
@@ -96,7 +110,7 @@ public class DeductionDAO {
      * @return a list of deduction entities within the range
      */
     public List<DeductionEntity> findByDateRange(Date startDate, Date endDate) {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             TypedQuery<DeductionEntity> query = em.createQuery(
                     "SELECT d FROM DeductionEntity d JOIN FETCH d.worker WHERE d.date BETWEEN :startDate AND :endDate ORDER BY d.date DESC",
@@ -115,7 +129,7 @@ public class DeductionDAO {
      * @param deduction the deduction entity to update
      */
     public void update(DeductionEntity deduction) {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
             em.merge(deduction);
@@ -131,7 +145,7 @@ public class DeductionDAO {
      * @param id the ID of the deduction record to delete
      */
     public void delete(Integer id) {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
             DeductionEntity deduction = em.find(DeductionEntity.class, id);
@@ -151,7 +165,7 @@ public class DeductionDAO {
      * @return the total deduction amount, or 0 if no deductions found
      */
     public Integer getTotalDeductionsByWorker(String workerId) {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             TypedQuery<Long> query = em.createQuery(
                     "SELECT SUM(d.amount) FROM DeductionEntity d WHERE d.worker.workerId = :workerId", Long.class);

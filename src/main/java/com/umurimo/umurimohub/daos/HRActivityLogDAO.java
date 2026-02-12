@@ -27,8 +27,22 @@ public class HRActivityLogDAO {
      *
      * @param log the activity log entity to save
      */
+    /**
+     * Protected method to get EntityManager, allowed to be overridden for testing.
+     *
+     * @return the EntityManager
+     */
+    protected EntityManager getEntityManager() {
+        return DBConnection.getEntityManager();
+    }
+
+    /**
+     * Persists a new HR activity log record to the database.
+     *
+     * @param log the activity log entity to save
+     */
     public void save(HRActivityLog log) {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
             em.persist(log);
@@ -45,7 +59,7 @@ public class HRActivityLogDAO {
      * @return the found HRActivityLog, or null if not found
      */
     public HRActivityLog findById(String id) {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             return em.find(HRActivityLog.class, id);
         } finally {
@@ -59,7 +73,7 @@ public class HRActivityLogDAO {
      * @return a list of all HRActivityLog entities
      */
     public List<HRActivityLog> findAll() {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             TypedQuery<HRActivityLog> query = em.createQuery(
                     "SELECT l FROM HRActivityLog l JOIN FETCH l.hrUser ORDER BY l.timestamp DESC", HRActivityLog.class);
@@ -76,7 +90,7 @@ public class HRActivityLogDAO {
      * @return a list of activity logs for the user
      */
     public List<HRActivityLog> findByUserId(String userId) {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             TypedQuery<HRActivityLog> query = em.createQuery(
                     "SELECT l FROM HRActivityLog l JOIN FETCH l.hrUser WHERE l.hrUser.userId = :userId ORDER BY l.timestamp DESC",
@@ -96,7 +110,7 @@ public class HRActivityLogDAO {
      * @return a list of activity logs within the range
      */
     public List<HRActivityLog> findByDateRange(Date startDate, Date endDate) {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             TypedQuery<HRActivityLog> query = em.createQuery(
                     "SELECT l FROM HRActivityLog l JOIN FETCH l.hrUser WHERE l.timestamp BETWEEN :startDate AND :endDate ORDER BY l.timestamp DESC",

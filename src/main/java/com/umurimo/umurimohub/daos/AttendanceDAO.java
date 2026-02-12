@@ -27,8 +27,22 @@ public class AttendanceDAO {
      *
      * @param attendance the attendance entity to save
      */
+    /**
+     * Protected method to get EntityManager, allowed to be overridden for testing.
+     *
+     * @return the EntityManager
+     */
+    protected EntityManager getEntityManager() {
+        return DBConnection.getEntityManager();
+    }
+
+    /**
+     * Persists a new attendance record to the database.
+     *
+     * @param attendance the attendance entity to save
+     */
     public void save(AttendanceEntity attendance) {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
             em.persist(attendance);
@@ -45,7 +59,7 @@ public class AttendanceDAO {
      * @return the found AttendanceEntity, or null if not found
      */
     public AttendanceEntity findById(String id) {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             return em.find(AttendanceEntity.class, id);
         } finally {
@@ -59,7 +73,7 @@ public class AttendanceDAO {
      * @return a list of all attendance entities
      */
     public List<AttendanceEntity> findAll() {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             TypedQuery<AttendanceEntity> query = em.createQuery(
                     "SELECT a FROM AttendanceEntity a JOIN FETCH a.worker ORDER BY a.date DESC",
@@ -77,7 +91,7 @@ public class AttendanceDAO {
      * @return a list of attendance entities for the worker
      */
     public List<AttendanceEntity> findByWorkerId(String workerId) {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             TypedQuery<AttendanceEntity> query = em.createQuery(
                     "SELECT a FROM AttendanceEntity a JOIN FETCH a.worker WHERE a.worker.workerId = :workerId ORDER BY a.date DESC",
@@ -97,7 +111,7 @@ public class AttendanceDAO {
      * @return a list of attendance entities within the range
      */
     public List<AttendanceEntity> findByDateRange(Date startDate, Date endDate) {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             TypedQuery<AttendanceEntity> query = em.createQuery(
                     "SELECT a FROM AttendanceEntity a JOIN FETCH a.worker WHERE a.date BETWEEN :startDate AND :endDate ORDER BY a.date DESC",
@@ -119,7 +133,7 @@ public class AttendanceDAO {
      * @return a list of matching attendance entities
      */
     public List<AttendanceEntity> findByWorkerAndDateRange(String workerId, Date startDate, Date endDate) {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             TypedQuery<AttendanceEntity> query = em.createQuery(
                     "SELECT a FROM AttendanceEntity a JOIN FETCH a.worker WHERE a.worker.workerId = :workerId " +
@@ -140,7 +154,7 @@ public class AttendanceDAO {
      * @param attendance the attendance entity to update
      */
     public void update(AttendanceEntity attendance) {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
             em.merge(attendance);
@@ -156,7 +170,7 @@ public class AttendanceDAO {
      * @param id the ID of the attendance record to delete
      */
     public void delete(String id) {
-        EntityManager em = DBConnection.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
             AttendanceEntity attendance = em.find(AttendanceEntity.class, id);
