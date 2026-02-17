@@ -16,6 +16,7 @@ import jakarta.persistence.Persistence;
  * @author Isaac-1-lang
  * @version 1.0
  * @since 2026
+ * @see ........................................
  */
 public class DBConnection {
     private static EntityManagerFactory emf;
