@@ -4,6 +4,7 @@
 <jsp:include page="../includes/header.jsp">
     <jsp:param name="title" value="Disciplinary Actions" />
 </jsp:include>
+<%--We have implicit objects and explicit objects where implicit are built in applicationScope, pageContext,request response and others while explicit are the ones that u make manually!!!--%>
 
 <div class="container">
     <jsp:include page="../includes/sidebar-hr.jsp" />
