@@ -2,6 +2,8 @@ package com.umurimo.umurimohub.controllers;
 
 import com.umurimo.umurimohub.services.HRActivityLogService;
 import com.umurimo.umurimohub.services.WorkerService;
+import com.umurimo.umurimohub.utils.InputSanitizer;
+import com.umurimo.umurimohub.utils.ParamUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -84,27 +86,25 @@ public class HRWorker extends HttpServlet {
         String userId = (String) session.getAttribute("userId");
 
         if ("create".equals(action)) {
-            String firstName = request.getParameter("firstName");
-            String lastName = request.getParameter("lastName");
-            String email = request.getParameter("email");
-            String phoneNumber = request.getParameter("phoneNumber");
-            String baseSalaryStr = request.getParameter("baseSalary");
-
-            if (firstName == null || firstName.trim().isEmpty() ||
-                    lastName == null || lastName.trim().isEmpty() ||
-                    email == null || email.trim().isEmpty()) {
-                request.setAttribute("error", "First name, last name, and email are required");
+            String firstName;
+            String lastName;
+            String email;
+            try {
+                firstName = ParamUtil.requireName(request, "firstName");
+                lastName = ParamUtil.requireName(request, "lastName");
+                email = ParamUtil.requireEmail(request, "email");
+            } catch (IllegalArgumentException ex) {
+                request.setAttribute("error", ex.getMessage());
                 request.setAttribute("workers", workerService.getAllWorkers());
                 request.getRequestDispatcher("/html/hr-worker.jsp").forward(request, response);
                 return;
             }
 
-            try {
-                Integer baseSalary = baseSalaryStr != null && !baseSalaryStr.trim().isEmpty()
-                        ? Integer.parseInt(baseSalaryStr)
-                        : 0;
+            String phoneNumber = InputSanitizer.sanitizePhone(request.getParameter("phoneNumber"));
+            Integer baseSalary = InputSanitizer.parseInt(request.getParameter("baseSalary"), 0, 1_000_000_000);
 
-                workerService.createWorker(firstName, lastName, email, phoneNumber, baseSalary);
+            try {
+                workerService.createWorker(firstName, lastName, email, phoneNumber, baseSalary != null ? baseSalary : 0);
 
                 // Log HR activity
                 if (userId != null) {

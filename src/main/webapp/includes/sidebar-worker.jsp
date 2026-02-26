@@ -3,10 +3,10 @@
 <aside class="sidebar">
     <nav class="sidebar-nav">
         <ul>
-            <li><a href="${pageContext.request.contextPath}/WorkerProfile" class="nav-link">My Profile</a></li>
-            <li><a href="${pageContext.request.contextPath}/WorkerProfile" class="nav-link">My Attendance</a></li>
-            <li><a href="${pageContext.request.contextPath}/WorkerProfile" class="nav-link">My Deductions</a></li>
-            <li><a href="${pageContext.request.contextPath}/WorkerProfile" class="nav-link">My Punishments</a></li>
+            <li><a href="<c:url value='/WorkerProfile'/>" class="nav-link">My Profile</a></li>
+            <li><a href="<c:url value='/WorkerProfile'/>" class="nav-link">My Attendance</a></li>
+            <li><a href="<c:url value='/WorkerProfile'/>" class="nav-link">My Deductions</a></li>
+            <li><a href="<c:url value='/WorkerProfile'/>" class="nav-link">My Punishments</a></li>
         </ul>
     </nav>
 </aside>

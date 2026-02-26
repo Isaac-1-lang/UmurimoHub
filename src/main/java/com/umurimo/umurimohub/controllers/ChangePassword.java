@@ -1,6 +1,7 @@
 package com.umurimo.umurimohub.controllers;
 
 import com.umurimo.umurimohub.services.UserService;
+import com.umurimo.umurimohub.utils.InputSanitizer;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -81,9 +82,10 @@ public class ChangePassword extends HttpServlet {
         String newPassword = request.getParameter("newPassword");
         String confirmPassword = request.getParameter("confirmPassword");
 
-        if (oldPassword == null || oldPassword.trim().isEmpty() ||
-                newPassword == null || newPassword.trim().isEmpty() ||
-                confirmPassword == null || confirmPassword.trim().isEmpty()) {
+        // Keep passwords as-is (no trimming that could change intent); only basic null/empty checks.
+        if (InputSanitizer.trimToNull(oldPassword) == null ||
+            InputSanitizer.trimToNull(newPassword) == null ||
+            InputSanitizer.trimToNull(confirmPassword) == null) {
             request.setAttribute("error", "All fields are required");
             request.getRequestDispatcher("/html/change-password.jsp").forward(request, response);
             return;

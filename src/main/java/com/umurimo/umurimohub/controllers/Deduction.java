@@ -3,6 +3,7 @@ package com.umurimo.umurimohub.controllers;
 import com.umurimo.umurimohub.services.DeductionService;
 import com.umurimo.umurimohub.services.HRActivityLogService;
 import com.umurimo.umurimohub.services.WorkerService;
+import com.umurimo.umurimohub.utils.InputSanitizer;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -91,14 +92,13 @@ public class Deduction extends HttpServlet {
         String userId = (String) session.getAttribute("userId");
 
         if ("create".equals(action)) {
-            String workerId = request.getParameter("workerId");
-            String amountStr = request.getParameter("amount");
-            String reason = request.getParameter("reason");
-            String dateStr = request.getParameter("date");
+            String workerId = InputSanitizer.sanitizePlainText(request.getParameter("workerId"), 64);
+            Integer amount = InputSanitizer.parseInt(request.getParameter("amount"), 0, 1_000_000_000);
+            String reason = InputSanitizer.sanitizePlainText(request.getParameter("reason"), 500);
+            String dateStr = InputSanitizer.sanitizePlainText(request.getParameter("date"), 20);
 
-            if (workerId == null || workerId.trim().isEmpty() ||
-                    amountStr == null || amountStr.trim().isEmpty()) {
-                request.setAttribute("error", "Worker and amount are required");
+            if (workerId == null || amount == null) {
+                request.setAttribute("error", "Worker and a valid amount are required");
                 request.setAttribute("workers", workerService.getActiveWorkers());
                 request.setAttribute("deductions", deductionService.getAllDeductions());
                 request.getRequestDispatcher("/html/deductions.jsp").forward(request, response);
@@ -106,7 +106,6 @@ public class Deduction extends HttpServlet {
             }
 
             try {
-                Integer amount = Integer.parseInt(amountStr);
                 Date date = null;
                 if (dateStr != null && !dateStr.trim().isEmpty()) {
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -123,8 +122,6 @@ public class Deduction extends HttpServlet {
                 }
 
                 request.setAttribute("success", "Deduction created successfully");
-            } catch (NumberFormatException e) {
-                request.setAttribute("error", "Invalid amount format");
             } catch (Exception e) {
                 request.setAttribute("error", e.getMessage());
             }

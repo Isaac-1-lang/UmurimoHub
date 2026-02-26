@@ -21,14 +21,14 @@
         </c:if>
 
         <h2 style="margin-top: 2rem; margin-bottom: 1rem;">Record Disciplinary Action</h2>
-        <form action="${pageContext.request.contextPath}/Punishment" method="POST" style="max-width: 600px; margin-bottom: 2rem;">
+        <form action="<c:url value='/Punishment'/>" method="POST" style="max-width: 600px; margin-bottom: 2rem;">
             <input type="hidden" name="action" value="create">
             <div class="form-group">
                 <label for="workerId">Worker</label>
                 <select id="workerId" name="workerId" required>
                     <option value="">Select Worker</option>
                     <c:forEach var="worker" items="${workers}">
-                        <option value="${worker.workerId}">${worker.firstName} ${worker.lastName}</option>
+                        <option value="<c:out value='${worker.workerId}'/>"><c:out value="${worker.firstName}" /> <c:out value="${worker.lastName}" /></option>
                     </c:forEach>
                 </select>
             </div>
@@ -61,9 +61,9 @@
                 <tbody>
                     <c:forEach var="punishment" items="${punishments}">
                         <tr>
-                            <td>${punishment.workerName}</td>
-                            <td>${punishment.title}</td>
-                            <td>${punishment.description}</td>
+                            <td><c:out value="${punishment.workerName}" /></td>
+                            <td><c:out value="${punishment.title}" /></td>
+                            <td><c:out value="${punishment.description}" /></td>
                             <td><fmt:formatDate value="${punishment.date}" pattern="yyyy-MM-dd" /></td>
                         </tr>
                     </c:forEach>

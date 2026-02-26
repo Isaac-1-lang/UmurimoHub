@@ -14,27 +14,27 @@
             <div class="stats-grid">
                 <div class="stat-card">
                     <h3>Total Workers</h3>
-                    <div class="value">${report.totalWorkers}</div>
+                    <div class="value"><c:out value="${report.totalWorkers}" /></div>
                 </div>
                 <div class="stat-card">
                     <h3>Active Workers</h3>
-                    <div class="value">${report.activeWorkers}</div>
+                    <div class="value"><c:out value="${report.activeWorkers}" /></div>
                 </div>
                 <div class="stat-card">
                     <h3>Total HR Users</h3>
-                    <div class="value">${report.totalHR}</div>
+                    <div class="value"><c:out value="${report.totalHR}" /></div>
                 </div>
                 <div class="stat-card">
                     <h3>Total Attendance Records</h3>
-                    <div class="value">${report.totalAttendance}</div>
+                    <div class="value"><c:out value="${report.totalAttendance}" /></div>
                 </div>
                 <div class="stat-card">
                     <h3>Total Deductions</h3>
-                    <div class="value">${report.totalDeductionCount}</div>
+                    <div class="value"><c:out value="${report.totalDeductionCount}" /></div>
                 </div>
                 <div class="stat-card">
                     <h3>Total Deduction Amount</h3>
-                    <div class="value">${report.totalDeductionAmount}</div>
+                    <div class="value"><c:out value="${report.totalDeductionAmount}" /></div>
                 </div>
             </div>
         </c:if>
@@ -53,10 +53,10 @@
                 <tbody>
                     <c:forEach var="activity" items="${hrActivities}" begin="0" end="9">
                         <tr>
-                            <td>${activity.hrName}</td>
-                            <td>${activity.action}</td>
-                            <td>${activity.timestamp}</td>
-                            <td>${activity.details}</td>
+                            <td><c:out value="${activity.hrName}" /></td>
+                            <td><c:out value="${activity.action}" /></td>
+                            <td><c:out value="${activity.timestamp}" /></td>
+                            <td><c:out value="${activity.details}" /></td>
                         </tr>
                     </c:forEach>
                 </tbody>

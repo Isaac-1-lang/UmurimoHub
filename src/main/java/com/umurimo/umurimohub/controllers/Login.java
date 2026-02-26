@@ -4,6 +4,7 @@ import com.umurimo.umurimohub.entities.UserEntity;
 import com.umurimo.umurimohub.entities.WorkerEntity;
 import com.umurimo.umurimohub.services.UserService;
 import com.umurimo.umurimohub.services.WorkerService;
+import com.umurimo.umurimohub.utils.ParamUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -71,11 +72,18 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String email = request.getParameter("email");
         String password = request.getParameter("password");
+        String email;
+        try {
+            email = ParamUtil.requireEmail(request, "email");
+        } catch (IllegalArgumentException ex) {
+            request.setAttribute("error", ex.getMessage());
+            request.getRequestDispatcher("/html/login.jsp").forward(request, response);
+            return;
+        }
 
-        if (email == null || email.trim().isEmpty() || password == null || password.trim().isEmpty()) {
-            request.setAttribute("error", "Email and password are required");
+        if (password == null || password.trim().isEmpty()) {
+            request.setAttribute("error", "Password is required");
             request.getRequestDispatcher("/html/login.jsp").forward(request, response);
             return;
         }

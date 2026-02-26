@@ -1,6 +1,7 @@
 package com.umurimo.umurimohub.controllers;
 
 import com.umurimo.umurimohub.services.UserService;
+import com.umurimo.umurimohub.utils.ParamUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -78,19 +79,20 @@ public class CreateHR extends HttpServlet {
             return;
         }
 
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
-        String email = request.getParameter("email");
-        String userId = (String) session.getAttribute("userId");
-
-        if (firstName == null || firstName.trim().isEmpty() ||
-                lastName == null || lastName.trim().isEmpty() ||
-                email == null || email.trim().isEmpty()) {
-            request.setAttribute("error", "All fields are required");
+        String firstName;
+        String lastName;
+        String email;
+        try {
+            firstName = ParamUtil.requireName(request, "firstName");
+            lastName = ParamUtil.requireName(request, "lastName");
+            email = ParamUtil.requireEmail(request, "email");
+        } catch (IllegalArgumentException ex) {
+            request.setAttribute("error", ex.getMessage());
             request.setAttribute("hrUsers", userService.getAllHRUsers());
             request.getRequestDispatcher("/html/create-hr.jsp").forward(request, response);
             return;
         }
+        String userId = (String) session.getAttribute("userId");
 
         try {
             userService.createHR(firstName, lastName, email, userId);

@@ -9,14 +9,14 @@
         <h1 class="page-title">Change Password</h1>
 
         <c:if test="${not empty error}">
-            <div class="alert alert-error">${error}</div>
+            <div class="alert alert-error"><c:out value="${error}" /></div>
         </c:if>
 
         <c:if test="${not empty success}">
-            <div class="alert alert-success">${success}</div>
+            <div class="alert alert-success"><c:out value="${success}" /></div>
         </c:if>
 
-        <form action="${pageContext.request.contextPath}/ChangePassword" method="POST" style="max-width: 500px;">
+        <form action="<c:url value='/ChangePassword'/>" method="POST" style="max-width: 500px;">
             <div class="form-group">
                 <label for="oldPassword">Current Password</label>
                 <input type="password" id="oldPassword" name="oldPassword" required>

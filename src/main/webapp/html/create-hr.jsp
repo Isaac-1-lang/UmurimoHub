@@ -20,7 +20,7 @@
         </c:if>
 
         <h2 style="margin-top: 2rem; margin-bottom: 1rem;">Create New HR User</h2>
-        <form action="${pageContext.request.contextPath}/CreateHR" method="POST" style="max-width: 600px; margin-bottom: 2rem;">
+        <form action="<c:url value='/CreateHR'/>" method="POST" style="max-width: 600px; margin-bottom: 2rem;">
             <div class="form-group">
                 <label for="firstName">First Name</label>
                 <input type="text" id="firstName" name="firstName" required>
@@ -51,10 +51,10 @@
                 <tbody>
                     <c:forEach var="hr" items="${hrUsers}">
                         <tr>
-                            <td>${hr.firstName} ${hr.lastName}</td>
-                            <td>${hr.email}</td>
-                            <td>${hr.status}</td>
-                            <td>${hr.passwordChanged ? 'Yes' : 'No'}</td>
+                            <td><c:out value="${hr.firstName}" /> <c:out value="${hr.lastName}" /></td>
+                            <td><c:out value="${hr.email}" /></td>
+                            <td><c:out value="${hr.status}" /></td>
+                            <td><c:out value="${hr.passwordChanged ? 'Yes' : 'No'}" /></td>
                             <td><fmt:formatDate value="${hr.createdAt}" pattern="yyyy-MM-dd" /></td>
                         </tr>
                     </c:forEach>

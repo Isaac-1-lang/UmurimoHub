@@ -25,8 +25,8 @@
                     <c:forEach var="attendance" items="${attendances}">
                         <tr>
                             <td><fmt:formatDate value="${attendance.date}" pattern="yyyy-MM-dd" /></td>
-                            <td>${attendance.status}</td>
-                            <td>${attendance.remarks}</td>
+                            <td><c:out value="${attendance.status}" /></td>
+                            <td><c:out value="${attendance.remarks}" /></td>
                         </tr>
                     </c:forEach>
                 </tbody>
@@ -50,13 +50,13 @@
                     <c:forEach var="deduction" items="${deductions}">
                         <tr>
                             <td><fmt:formatDate value="${deduction.date}" pattern="yyyy-MM-dd" /></td>
-                            <td>${deduction.amount}</td>
-                            <td>${deduction.reason}</td>
+                            <td><c:out value="${deduction.amount}" /></td>
+                            <td><c:out value="${deduction.reason}" /></td>
                         </tr>
                     </c:forEach>
                 </tbody>
             </table>
-            <p style="margin-top: 1rem;"><strong>Total Deductions: ${totalDeductions}</strong></p>
+            <p style="margin-top: 1rem;"><strong>Total Deductions: <c:out value="${totalDeductions}" /></strong></p>
         </c:if>
         <c:if test="${empty deductions}">
             <p>No deductions found.</p>
@@ -76,8 +76,8 @@
                     <c:forEach var="punishment" items="${punishments}">
                         <tr>
                             <td><fmt:formatDate value="${punishment.date}" pattern="yyyy-MM-dd" /></td>
-                            <td>${punishment.title}</td>
-                            <td>${punishment.description}</td>
+                            <td><c:out value="${punishment.title}" /></td>
+                            <td><c:out value="${punishment.description}" /></td>
                         </tr>
                     </c:forEach>
                 </tbody>

@@ -20,7 +20,7 @@
         </c:if>
 
         <h2 style="margin-top: 2rem; margin-bottom: 1rem;">Create New Worker</h2>
-        <form action="${pageContext.request.contextPath}/HRWorker" method="POST" style="max-width: 600px; margin-bottom: 2rem;">
+        <form action="<c:url value='/HRWorker'/>" method="POST" style="max-width: 600px; margin-bottom: 2rem;">
             <input type="hidden" name="action" value="create">
             <div class="form-group">
                 <label for="firstName">First Name</label>
@@ -61,12 +61,12 @@
                 <tbody>
                     <c:forEach var="worker" items="${workers}">
                         <tr>
-                            <td>${worker.firstName} ${worker.lastName}</td>
-                            <td>${worker.email}</td>
-                            <td>${worker.phoneNumber}</td>
-                            <td>${worker.baseSalary}</td>
+                            <td><c:out value="${worker.firstName}" /> <c:out value="${worker.lastName}" /></td>
+                            <td><c:out value="${worker.email}" /></td>
+                            <td><c:out value="${worker.phoneNumber}" /></td>
+                            <td><c:out value="${worker.baseSalary}" /></td>
                             <td><fmt:formatDate value="${worker.hireDate}" pattern="yyyy-MM-dd" /></td>
-                            <td>${worker.status}</td>
+                            <td><c:out value="${worker.status}" /></td>
                         </tr>
                     </c:forEach>
                 </tbody>

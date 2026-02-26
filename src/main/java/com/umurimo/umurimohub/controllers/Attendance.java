@@ -3,6 +3,8 @@ package com.umurimo.umurimohub.controllers;
 import com.umurimo.umurimohub.services.AttendaceService;
 import com.umurimo.umurimohub.services.HRActivityLogService;
 import com.umurimo.umurimohub.services.WorkerService;
+import com.umurimo.umurimohub.utils.InputSanitizer;
+import com.umurimo.umurimohub.utils.ParamUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,7 +14,10 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Attendance Servlet
@@ -31,6 +36,7 @@ public class Attendance extends HttpServlet {
     private AttendaceService attendanceService = new AttendaceService();
     private WorkerService workerService = new WorkerService();
     private HRActivityLogService activityLogService = new HRActivityLogService();
+    private static final Set<String> ALLOWED_STATUS = new HashSet<>(Arrays.asList("PRESENT", "ABSENT", "LATE", "LEAVE"));
 
     /**
      * Handles HTTP GET requests.
@@ -90,14 +96,22 @@ public class Attendance extends HttpServlet {
         String userId = (String) session.getAttribute("userId");
 
         if ("create".equals(action)) {
-            String workerId = request.getParameter("workerId");
-            String dateStr = request.getParameter("date");
-            String status = request.getParameter("status");
-            String remarks = request.getParameter("remarks");
+            String workerId = InputSanitizer.sanitizePlainText(request.getParameter("workerId"), 64);
+            String dateStr = InputSanitizer.sanitizePlainText(request.getParameter("date"), 20);
+            String remarks = InputSanitizer.sanitizePlainText(request.getParameter("remarks"), 500);
+            String status;
+            try {
+                status = ParamUtil.requireOneOf(request, "status", ALLOWED_STATUS);
+            } catch (IllegalArgumentException ex) {
+                request.setAttribute("error", ex.getMessage());
+                request.setAttribute("workers", workerService.getActiveWorkers());
+                request.setAttribute("attendances", attendanceService.getAllAttendance());
+                request.getRequestDispatcher("/html/attendance.jsp").forward(request, response);
+                return;
+            }
 
-            if (workerId == null || workerId.trim().isEmpty() ||
-                    status == null || status.trim().isEmpty()) {
-                request.setAttribute("error", "Worker and status are required");
+            if (workerId == null) {
+                request.setAttribute("error", "Worker is required");
                 request.setAttribute("workers", workerService.getActiveWorkers());
                 request.setAttribute("attendances", attendanceService.getAllAttendance());
                 request.getRequestDispatcher("/html/attendance.jsp").forward(request, response);

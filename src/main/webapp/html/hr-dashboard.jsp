@@ -15,10 +15,10 @@
             <div class="stat-card">
                 <h3>Quick Actions</h3>
                 <p style="margin-top: 1rem;">
-                    <a href="${pageContext.request.contextPath}/HRWorker" class="btn btn-primary" style="display: block; margin-bottom: 0.5rem;">Manage Workers</a>
-                    <a href="${pageContext.request.contextPath}/Attendance" class="btn btn-primary" style="display: block; margin-bottom: 0.5rem;">Record Attendance</a>
-                    <a href="${pageContext.request.contextPath}/Deduction" class="btn btn-primary" style="display: block; margin-bottom: 0.5rem;">Create Deduction</a>
-                    <a href="${pageContext.request.contextPath}/Punishment" class="btn btn-primary" style="display: block;">Record Punishment</a>
+                    <a href="<c:url value='/HRWorker'/>" class="btn btn-primary" style="display: block; margin-bottom: 0.5rem;">Manage Workers</a>
+                    <a href="<c:url value='/Attendance'/>" class="btn btn-primary" style="display: block; margin-bottom: 0.5rem;">Record Attendance</a>
+                    <a href="<c:url value='/Deduction'/>" class="btn btn-primary" style="display: block; margin-bottom: 0.5rem;">Create Deduction</a>
+                    <a href="<c:url value='/Punishment'/>" class="btn btn-primary" style="display: block;">Record Punishment</a>
                 </p>
             </div>
         </div>

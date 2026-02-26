@@ -2,6 +2,7 @@ package com.umurimo.umurimohub.controllers;
 
 import com.umurimo.umurimohub.daos.UserDAO;
 import com.umurimo.umurimohub.services.UserService;
+import com.umurimo.umurimohub.utils.ParamUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -62,18 +63,25 @@ public class Register extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
-        String email = request.getParameter("email");
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirmPassword");
 
-        // Validation
-        if (firstName == null || firstName.trim().isEmpty() ||
-                lastName == null || lastName.trim().isEmpty() ||
-                email == null || email.trim().isEmpty() ||
-                password == null || password.trim().isEmpty()) {
-            request.setAttribute("error", "All fields are required");
+        // Validation + sanitization (no HTML is trusted; JSP will escape output)
+        String firstName;
+        String lastName;
+        String email;
+        try {
+            firstName = ParamUtil.requireName(request, "firstName");
+            lastName = ParamUtil.requireName(request, "lastName");
+            email = ParamUtil.requireEmail(request, "email");
+        } catch (IllegalArgumentException ex) {
+            request.setAttribute("error", ex.getMessage());
+            request.getRequestDispatcher("/html/register.jsp").forward(request, response);
+            return;
+        }
+
+        if (password == null || password.trim().isEmpty()) {
+            request.setAttribute("error", "Password is required");
             request.getRequestDispatcher("/html/register.jsp").forward(request, response);
             return;
         }

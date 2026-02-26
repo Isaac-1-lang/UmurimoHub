@@ -3,6 +3,7 @@ package com.umurimo.umurimohub.controllers;
 import com.umurimo.umurimohub.services.HRActivityLogService;
 import com.umurimo.umurimohub.services.PunishmentService;
 import com.umurimo.umurimohub.services.WorkerService;
+import com.umurimo.umurimohub.utils.InputSanitizer;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -91,13 +92,12 @@ public class Punishment extends HttpServlet {
         String userId = (String) session.getAttribute("userId");
 
         if ("create".equals(action)) {
-            String workerId = request.getParameter("workerId");
-            String title = request.getParameter("title");
-            String description = request.getParameter("description");
-            String dateStr = request.getParameter("date");
+            String workerId = InputSanitizer.sanitizePlainText(request.getParameter("workerId"), 64);
+            String title = InputSanitizer.sanitizePlainText(request.getParameter("title"), 200);
+            String description = InputSanitizer.sanitizePlainText(request.getParameter("description"), 1000);
+            String dateStr = InputSanitizer.sanitizePlainText(request.getParameter("date"), 20);
 
-            if (workerId == null || workerId.trim().isEmpty() ||
-                    title == null || title.trim().isEmpty()) {
+            if (workerId == null || title == null) {
                 request.setAttribute("error", "Worker and title are required");
                 request.setAttribute("workers", workerService.getActiveWorkers());
                 request.setAttribute("punishments", punishmentService.getAllPunishments());
