@@ -2,6 +2,7 @@ package com.umurimo.umurimohub.controllers;
 
 import com.umurimo.umurimohub.daos.UserDAO;
 import com.umurimo.umurimohub.services.UserService;
+import com.umurimo.umurimohub.utils.CaptchaValidator;
 import com.umurimo.umurimohub.utils.ParamUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -63,6 +64,12 @@ public class Register extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if (!CaptchaValidator.validate(request, "captcha")) {
+            request.setAttribute("error", "Invalid CAPTCHA. Please try again.");
+            request.getRequestDispatcher("/html/register.jsp").forward(request, response);
+            return;
+        }
+
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirmPassword");
 

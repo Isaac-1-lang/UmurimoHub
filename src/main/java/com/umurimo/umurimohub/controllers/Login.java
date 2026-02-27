@@ -4,6 +4,7 @@ import com.umurimo.umurimohub.entities.UserEntity;
 import com.umurimo.umurimohub.entities.WorkerEntity;
 import com.umurimo.umurimohub.services.UserService;
 import com.umurimo.umurimohub.services.WorkerService;
+import com.umurimo.umurimohub.utils.CaptchaValidator;
 import com.umurimo.umurimohub.utils.ParamUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -72,6 +73,22 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Simple throttling (per session) to reduce brute force
+        HttpSession throttleSession = request.getSession(true);
+        Long lockUntil = (Long) throttleSession.getAttribute("LOGIN_LOCK_UNTIL");
+        if (lockUntil != null && lockUntil > System.currentTimeMillis()) {
+            request.setAttribute("error", "Too many failed attempts. Try again later.");
+            request.getRequestDispatcher("/html/login.jsp").forward(request, response);
+            return;
+        }
+
+        // CAPTCHA check
+        if (!CaptchaValidator.validate(request, "captcha")) {
+            request.setAttribute("error", "Invalid CAPTCHA. Please try again.");
+            request.getRequestDispatcher("/html/login.jsp").forward(request, response);
+            return;
+        }
+
         String password = request.getParameter("password");
         String email;
         try {
@@ -91,6 +108,10 @@ public class Login extends HttpServlet {
         // Try to authenticate as User (CEO/HR) first
         UserEntity user = userService.authenticate(email, password);
         if (user != null) {
+            // reset throttle counters on success
+            throttleSession.removeAttribute("LOGIN_FAIL_COUNT");
+            throttleSession.removeAttribute("LOGIN_LOCK_UNTIL");
+
             HttpSession session = request.getSession();
             session.setAttribute("user", email);
             session.setAttribute("userId", user.getUserId());
@@ -115,6 +136,10 @@ public class Login extends HttpServlet {
         // Try to authenticate as Worker
         WorkerEntity worker = workerService.authenticate(email, password);
         if (worker != null) {
+            // reset throttle counters on success
+            throttleSession.removeAttribute("LOGIN_FAIL_COUNT");
+            throttleSession.removeAttribute("LOGIN_LOCK_UNTIL");
+
             HttpSession session = request.getSession();
             session.setAttribute("user", email);
             session.setAttribute("workerId", worker.getWorkerId());
@@ -127,6 +152,13 @@ public class Login extends HttpServlet {
         }
 
         // Authentication failed
+        Integer failCount = (Integer) throttleSession.getAttribute("LOGIN_FAIL_COUNT");
+        failCount = (failCount == null) ? 1 : (failCount + 1);
+        throttleSession.setAttribute("LOGIN_FAIL_COUNT", failCount);
+        if (failCount >= 5) {
+            throttleSession.setAttribute("LOGIN_LOCK_UNTIL", System.currentTimeMillis() + (5L * 60L * 1000L));
+        }
+
         request.setAttribute("error", "Invalid email or password");
         request.getRequestDispatcher("/html/login.jsp").forward(request, response);
     }
