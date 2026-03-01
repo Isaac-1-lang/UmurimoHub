@@ -22,7 +22,7 @@ import java.io.IOException;
  *
  * @author Isaac-1-lang
  * @version 1.0
- * @since 2024
+ * @since 2026
  */
 @WebServlet(name = "Register", value = "/Register")
 public class Register extends HttpServlet {
@@ -69,7 +69,7 @@ public class Register extends HttpServlet {
             request.getRequestDispatcher("/html/register.jsp").forward(request, response);
             return;
         }
-
+        // Receiving the fields to be validated before being stored in the DB
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirmPassword");
 

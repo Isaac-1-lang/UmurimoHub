@@ -19,18 +19,6 @@ body.auth-body {
     justify-content: center;
     background: radial-gradient(circle at top, #eef1ff 0, #f5f5f5 55%, #e9ecff 100%);
 }
-
-body.auth-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: url("../assets/logo.png") no-repeat right bottom;
-    background-size: 260px 260px;
-    opacity: 0.03;
-    pointer-events: none;
-    z-index: -1;
-}
-
 body.auth-body .form-container {
     margin: 0;
     max-width: 420px;
@@ -184,7 +172,7 @@ body.auth-body .form-container {
     max-width: 480px;
     margin: 2rem auto;
     background: white;
-    padding: 1.6rem 1.9rem;
+    padding: 0.6rem 1.6rem;
     border-radius: 8px;
     box-shadow: 0 14px 30px rgba(0,0,0,0.12);
 }

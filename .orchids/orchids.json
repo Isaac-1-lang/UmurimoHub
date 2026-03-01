@@ -1,0 +1,9 @@
+{
+  "projectId": "e7f99dc0-e1c5-49b2-8d58-0abddb9283a7",
+  "createdAt": 1772289067842,
+  "version": "1.0",
+  "startupCommands": [
+    "mvn clean package -DskipTests cargo:run -f \"pom.xml\""
+  ],
+  "templateId": "any"
+}
