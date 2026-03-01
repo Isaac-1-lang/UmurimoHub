@@ -47,6 +47,8 @@ public class Punishment extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Fetching the session which is stored in the DB in order to see the person who gonna perform punishment action
+        // this one can only be done by the CEO or the HR only, no any worker who is allowed to perform this one
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("user") == null) {
             response.sendRedirect(request.getContextPath() + "/Login");
