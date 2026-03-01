@@ -18,7 +18,7 @@ import java.security.SecureRandom;
 public class CaptchaServlet extends HttpServlet {
     public static final String SESSION_KEY = "CAPTCHA_CODE";
     private static final SecureRandom RNG = new SecureRandom();
-    private static final String ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // no O/0/I/1
+    private static final String ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789abcdefghijklmnopqrst!$^&*_-+@~#"; // no O/0/I/1
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
