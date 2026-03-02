@@ -22,7 +22,7 @@ import java.io.IOException;
  *
  * @author Isaac-1-lang
  * @version 1.0
- * @since 2024
+ * @since 2026
  */
 @WebServlet(name = "WorkerProfile", value = "/WorkerProfile")
 public class WorkerProfile extends HttpServlet {
@@ -47,7 +47,7 @@ public class WorkerProfile extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/Login");
             return;
         }
-
+        // Getting the session which will help to know the role of the person in the session, in order to make sure that the real person is doing the permitted action
         String role = (String) session.getAttribute("role");
         if (!"WORKER".equals(role)) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access denied");
