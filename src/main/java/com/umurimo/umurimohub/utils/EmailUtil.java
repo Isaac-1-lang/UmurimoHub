@@ -98,4 +98,21 @@ public class EmailUtil {
                 "UmurimoHub Team";
         sendEmail(email, subject, body);
     }
+
+    /**
+     * Sends a one-time verification code (OTP) for CEO registration.
+     *
+     * @param email the CEO's email
+     * @param otp   the one-time code
+     */
+    public static void sendCeoOtp(String email, String otp) {
+        String subject = "UmurimoHub - CEO Registration OTP";
+        String body = "Dear CEO,\n\n" +
+                "Use the following one-time code to complete your registration on UmurimoHub:\n\n" +
+                "OTP: " + otp + "\n\n" +
+                "If you did not request this, you can safely ignore this email.\n\n" +
+                "Best regards,\n" +
+                "UmurimoHub Team";
+        sendEmail(email, subject, body);
+    }
 }

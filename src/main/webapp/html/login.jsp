@@ -17,7 +17,6 @@
         <p class="auth-subtitle">Work is key to success and richness</p>
         <h2 class="auth-heading">Login</h2>
     </div>
-
     <c:if test="${not empty error}">
         <div class="alert alert-error"><c:out value="${error}" /></div>
     </c:if>

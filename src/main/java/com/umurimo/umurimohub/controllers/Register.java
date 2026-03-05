@@ -1,9 +1,8 @@
 package com.umurimo.umurimohub.controllers;
-
-import com.umurimo.umurimohub.daos.UserDAO;
 import com.umurimo.umurimohub.services.UserService;
 import com.umurimo.umurimohub.utils.CaptchaValidator;
 import com.umurimo.umurimohub.utils.ParamUtil;
+import com.umurimo.umurimohub.utils.EmailUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -27,12 +26,10 @@ import java.io.IOException;
 @WebServlet(name = "Register", value = "/Register")
 public class Register extends HttpServlet {
     private UserService userService = new UserService();
-    private UserDAO userDAO = new UserDAO();
 
     /**
      * Handles HTTP GET requests.
      * Displays the registration form.
-     * Redirects to login if a CEO account already exists.
      *
      * @param request  the HttpServletRequest object
      * @param response the HttpServletResponse object
@@ -42,12 +39,6 @@ public class Register extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // // Check if CEO already exists
-         if (!userDAO.findByRole("CEO").isEmpty()) {
-             request.setAttribute("error", "CEO account already exists. Please login instead.");
-             request.getRequestDispatcher("/html/login.jsp").forward(request, response);
-             return;
-         }
         request.getRequestDispatcher("/html/register.jsp").forward(request, response);
     }
 
@@ -99,26 +90,21 @@ public class Register extends HttpServlet {
             return;
         }
 
+        // Generate OTP and send to CEO's email, then redirect to OTP verification step
+        String otp = String.format("%06d", (int) (Math.random() * 1_000_000));
+
+        HttpSession session = request.getSession(true);
+        session.setAttribute("PENDING_CEO_FIRSTNAME", firstName);
+        session.setAttribute("PENDING_CEO_LASTNAME", lastName);
+        session.setAttribute("PENDING_CEO_EMAIL", email);
+        session.setAttribute("PENDING_CEO_PASSWORD", password);
+        session.setAttribute("PENDING_CEO_OTP", otp);
+
         try {
-            // Check if CEO already exists
-            if (userDAO.findByRole("CEO").size() > 0) {
-                request.setAttribute("error", "CEO account already exists. Please login instead.");
-                request.getRequestDispatcher("/html/login.jsp").forward(request, response);
-                return;
-            }
-
-            userService.registerCEO(firstName, lastName, email, password);
-
-            // Auto-login after registration
-            HttpSession session = request.getSession();
-            session.setAttribute("user", email);
-            session.setAttribute("role", "CEO");
-            session.setAttribute("firstName", firstName);
-            session.setAttribute("lastName", lastName);
-
-            response.sendRedirect(request.getContextPath() + "/html/ceo-dashboard.jsp");
+            EmailUtil.sendCeoOtp(email, otp);
+            response.sendRedirect(request.getContextPath() + "/VerifyCEOOTP");
         } catch (Exception e) {
-            request.setAttribute("error", e.getMessage());
+            request.setAttribute("error", "Failed to send OTP email. Please try again.");
             request.getRequestDispatcher("/html/register.jsp").forward(request, response);
         }
     }
