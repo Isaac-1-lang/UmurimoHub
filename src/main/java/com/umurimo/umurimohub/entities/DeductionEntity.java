@@ -31,7 +31,7 @@ public class DeductionEntity {
     @Column(name = "amount", nullable = false)
     private Integer amount;
 
-    /**
+    /** 
      * The reason for the deduction.
      */
     @Column(name = "reason", length = 500)

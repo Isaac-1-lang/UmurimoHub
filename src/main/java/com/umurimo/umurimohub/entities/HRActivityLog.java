@@ -41,7 +41,7 @@ public class HRActivityLog {
     /**
      * The HR user who performed the action.
      */
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade  = CascadeType.ALL)
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity hrUser;
 
