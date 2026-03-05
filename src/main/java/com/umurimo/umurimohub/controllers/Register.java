@@ -42,12 +42,12 @@ public class Register extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Check if CEO already exists
-        if (userDAO.findByRole("CEO").size() > 0) {
-            request.setAttribute("error", "CEO account already exists. Please login instead.");
-            request.getRequestDispatcher("/html/login.jsp").forward(request, response);
-            return;
-        }
+        // // Check if CEO already exists
+         if (!userDAO.findByRole("CEO").isEmpty()) {
+             request.setAttribute("error", "CEO account already exists. Please login instead.");
+             request.getRequestDispatcher("/html/login.jsp").forward(request, response);
+             return;
+         }
         request.getRequestDispatcher("/html/register.jsp").forward(request, response);
     }
 

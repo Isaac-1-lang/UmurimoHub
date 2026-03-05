@@ -12,7 +12,7 @@
 <body class="auth-body">
 <div class="form-container">
     <div class="auth-header">
-        <img src="<c:url value='/assets/logo.png'/>" alt="UmurimoHub Logo" class="auth-logo">
+        <img src="<c:url value= '/assets/logo.png'/>" alt="UmurimoHub Logo" class="auth-logo">
         <h1 class="auth-title">UmurimoHub</h1>
         <p class="auth-subtitle">Work is key to success and richness</p>
         <h2 class="auth-heading">Login</h2>
