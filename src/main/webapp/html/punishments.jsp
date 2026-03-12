@@ -49,26 +49,28 @@
 
         <h2 style="margin-top: 2rem; margin-bottom: 1rem;">All Disciplinary Actions</h2>
         <c:if test="${not empty punishments}">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Worker</th>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach var="punishment" items="${punishments}">
+            <div class="table-container">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td><c:out value="${punishment.workerName}" /></td>
-                            <td><c:out value="${punishment.title}" /></td>
-                            <td><c:out value="${punishment.description}" /></td>
-                            <td><fmt:formatDate value="${punishment.date}" pattern="yyyy-MM-dd" /></td>
+                            <th>Worker</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Date</th>
                         </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="punishment" items="${punishments}">
+                            <tr>
+                                <td><c:out value="${punishment.workerName}" /></td>
+                                <td><c:out value="${punishment.title}" /></td>
+                                <td><c:out value="${punishment.description}" /></td>
+                                <td><fmt:formatDate value="${punishment.date}" pattern="yyyy-MM-dd" /></td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </div>
         </c:if>
         <c:if test="${empty punishments}">
             <p>No disciplinary actions found.</p>

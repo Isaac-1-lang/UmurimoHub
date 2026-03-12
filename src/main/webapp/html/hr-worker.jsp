@@ -47,30 +47,32 @@
 
         <h2 style="margin-top: 2rem; margin-bottom: 1rem;">All Workers</h2>
         <c:if test="${not empty workers}">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Base Salary</th>
-                        <th>Hire Date</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach var="worker" items="${workers}">
+            <div class="table-container">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td><c:out value="${worker.firstName}" /> <c:out value="${worker.lastName}" /></td>
-                            <td><c:out value="${worker.email}" /></td>
-                            <td><c:out value="${worker.phoneNumber}" /></td>
-                            <td><c:out value="${worker.baseSalary}" /></td>
-                            <td><fmt:formatDate value="${worker.hireDate}" pattern="yyyy-MM-dd" /></td>
-                            <td><c:out value="${worker.status}" /></td>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Base Salary</th>
+                            <th>Hire Date</th>
+                            <th>Status</th>
                         </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="worker" items="${workers}">
+                            <tr>
+                                <td><c:out value="${worker.firstName}" /> <c:out value="${worker.lastName}" /></td>
+                                <td><c:out value="${worker.email}" /></td>
+                                <td><c:out value="${worker.phoneNumber}" /></td>
+                                <td><c:out value="${worker.baseSalary}" /></td>
+                                <td><fmt:formatDate value="${worker.hireDate}" pattern="yyyy-MM-dd" /></td>
+                                <td><c:out value="${worker.status}" /></td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </div>
         </c:if>
         <c:if test="${empty workers}">
             <p>No workers found.</p>

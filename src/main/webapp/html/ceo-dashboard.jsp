@@ -41,26 +41,28 @@
 
         <h2 style="margin-top: 2rem; margin-bottom: 1rem;">Recent HR Activities</h2>
         <c:if test="${not empty hrActivities}">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>HR Name</th>
-                        <th>Action</th>
-                        <th>Timestamp</th>
-                        <th>Details</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach var="activity" items="${hrActivities}" begin="0" end="9">
+            <div class="table-container">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td><c:out value="${activity.hrName}" /></td>
-                            <td><c:out value="${activity.action}" /></td>
-                            <td><c:out value="${activity.timestamp}" /></td>
-                            <td><c:out value="${activity.details}" /></td>
+                            <th>HR Name</th>
+                            <th>Action</th>
+                            <th>Timestamp</th>
+                            <th>Details</th>
                         </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="activity" items="${hrActivities}" begin="0" end="9">
+                            <tr>
+                                <td><c:out value="${activity.hrName}" /></td>
+                                <td><c:out value="${activity.action}" /></td>
+                                <td><c:out value="${activity.timestamp}" /></td>
+                                <td><c:out value="${activity.details}" /></td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </div>
         </c:if>
     </div>
 </div>

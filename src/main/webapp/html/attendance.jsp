@@ -54,26 +54,28 @@
 
         <h2 style="margin-top: 2rem; margin-bottom: 1rem;">Attendance Records</h2>
         <c:if test="${not empty attendances}">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Worker</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                        <th>Remarks</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach var="attendance" items="${attendances}">
+            <div class="table-container">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td><c:out value="${attendance.workerName}" /></td>
-                            <td><fmt:formatDate value="${attendance.date}" pattern="yyyy-MM-dd" /></td>
-                            <td><c:out value="${attendance.status}" /></td>
-                            <td><c:out value="${attendance.remarks}" /></td>
+                            <th>Worker</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Remarks</th>
                         </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="attendance" items="${attendances}">
+                            <tr>
+                                <td><c:out value="${attendance.workerName}" /></td>
+                                <td><fmt:formatDate value="${attendance.date}" pattern="yyyy-MM-dd" /></td>
+                                <td><c:out value="${attendance.status}" /></td>
+                                <td><c:out value="${attendance.remarks}" /></td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </div>
         </c:if>
         <c:if test="${empty attendances}">
             <p>No attendance records found.</p>

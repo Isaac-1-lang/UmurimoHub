@@ -13,24 +13,26 @@
 
         <h2 style="margin-top: 2rem; margin-bottom: 1rem;">My Attendance</h2>
         <c:if test="${not empty attendances}">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Status</th>
-                        <th>Remarks</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach var="attendance" items="${attendances}">
+            <div class="table-container">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td><fmt:formatDate value="${attendance.date}" pattern="yyyy-MM-dd" /></td>
-                            <td><c:out value="${attendance.status}" /></td>
-                            <td><c:out value="${attendance.remarks}" /></td>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Remarks</th>
                         </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="attendance" items="${attendances}">
+                            <tr>
+                                <td><fmt:formatDate value="${attendance.date}" pattern="yyyy-MM-dd" /></td>
+                                <td><c:out value="${attendance.status}" /></td>
+                                <td><c:out value="${attendance.remarks}" /></td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </div>
         </c:if>
         <c:if test="${empty attendances}">
             <p>No attendance records found.</p>
@@ -38,24 +40,26 @@
 
         <h2 style="margin-top: 2rem; margin-bottom: 1rem;">My Deductions</h2>
         <c:if test="${not empty deductions}">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Amount</th>
-                        <th>Reason</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach var="deduction" items="${deductions}">
+            <div class="table-container">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td><fmt:formatDate value="${deduction.date}" pattern="yyyy-MM-dd" /></td>
-                            <td><c:out value="${deduction.amount}" /></td>
-                            <td><c:out value="${deduction.reason}" /></td>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Reason</th>
                         </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="deduction" items="${deductions}">
+                            <tr>
+                                <td><fmt:formatDate value="${deduction.date}" pattern="yyyy-MM-dd" /></td>
+                                <td><c:out value="${deduction.amount}" /></td>
+                                <td><c:out value="${deduction.reason}" /></td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </div>
             <p style="margin-top: 1rem;"><strong>Total Deductions: <c:out value="${totalDeductions}" /></strong></p>
         </c:if>
         <c:if test="${empty deductions}">
@@ -64,24 +68,26 @@
 
         <h2 style="margin-top: 2rem; margin-bottom: 1rem;">My Disciplinary Actions</h2>
         <c:if test="${not empty punishments}">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Title</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach var="punishment" items="${punishments}">
+            <div class="table-container">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td><fmt:formatDate value="${punishment.date}" pattern="yyyy-MM-dd" /></td>
-                            <td><c:out value="${punishment.title}" /></td>
-                            <td><c:out value="${punishment.description}" /></td>
+                            <th>Date</th>
+                            <th>Title</th>
+                            <th>Description</th>
                         </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="punishment" items="${punishments}">
+                            <tr>
+                                <td><fmt:formatDate value="${punishment.date}" pattern="yyyy-MM-dd" /></td>
+                                <td><c:out value="${punishment.title}" /></td>
+                                <td><c:out value="${punishment.description}" /></td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </div>
         </c:if>
         <c:if test="${empty punishments}">
             <p>No disciplinary actions found.</p>

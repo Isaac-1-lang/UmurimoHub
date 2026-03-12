@@ -38,28 +38,30 @@
 
         <h2 style="margin-top: 2rem; margin-bottom: 1rem;">All HR Users</h2>
         <c:if test="${not empty hrUsers}">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Status</th>
-                        <th>Password Changed</th>
-                        <th>Created At</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach var="hr" items="${hrUsers}">
+            <div class="table-container">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td><c:out value="${hr.firstName}" /> <c:out value="${hr.lastName}" /></td>
-                            <td><c:out value="${hr.email}" /></td>
-                            <td><c:out value="${hr.status}" /></td>
-                            <td><c:out value="${hr.passwordChanged ? 'Yes' : 'No'}" /></td>
-                            <td><fmt:formatDate value="${hr.createdAt}" pattern="yyyy-MM-dd" /></td>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Password Changed</th>
+                            <th>Created At</th>
                         </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="hr" items="${hrUsers}">
+                            <tr>
+                                <td><c:out value="${hr.firstName}" /> <c:out value="${hr.lastName}" /></td>
+                                <td><c:out value="${hr.email}" /></td>
+                                <td><c:out value="${hr.status}" /></td>
+                                <td><c:out value="${hr.passwordChanged ? 'Yes' : 'No'}" /></td>
+                                <td><fmt:formatDate value="${hr.createdAt}" pattern="yyyy-MM-dd" /></td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </div>
         </c:if>
         <c:if test="${empty hrUsers}">
             <p>No HR users found.</p>

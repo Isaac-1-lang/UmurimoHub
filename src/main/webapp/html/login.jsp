@@ -33,13 +33,13 @@
         </div>
 
         <div class="form-group">
-            <label for="captcha">CAPTCHA</label>
-            <div style="display:flex; gap: 1rem; align-items:center;">
-                <img src="<c:url value='/captcha'/>" alt="CAPTCHA" style="border:1px solid #ddd; border-radius:6px; height:38px;">
-                <input type="text" id="captcha" name="captcha" placeholder="Enter the text" required style="flex:1;">
+            <label for="captcha">Security Check</label>
+            <div class="captcha-container">
+                <img src="<c:url value='/captcha'/>" alt="CAPTCHA">
+                <input type="text" id="captcha" name="captcha" placeholder="Enter characters" required>
             </div>
-            <small style="display:block; margin-top:0.5rem;">
-                If the image is hard to read, refresh the page to get a new one.
+            <small style="display:block; margin-top:0.5rem; color: var(--text-muted); font-size: 0.8rem;">
+                Click image to refresh (coming soon, refresh page for now).
             </small>
         </div>
 

@@ -48,26 +48,28 @@
 
         <h2 style="margin-top: 2rem; margin-bottom: 1rem;">All Deductions</h2>
         <c:if test="${not empty deductions}">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Worker</th>
-                        <th>Amount</th>
-                        <th>Reason</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach var="deduction" items="${deductions}">
+            <div class="table-container">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td><c:out value="${deduction.workerName}" /></td>
-                            <td><c:out value="${deduction.amount}" /></td>
-                            <td><c:out value="${deduction.reason}" /></td>
-                            <td><fmt:formatDate value="${deduction.date}" pattern="yyyy-MM-dd" /></td>
+                            <th>Worker</th>
+                            <th>Amount</th>
+                            <th>Reason</th>
+                            <th>Date</th>
                         </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="deduction" items="${deductions}">
+                            <tr>
+                                <td><c:out value="${deduction.workerName}" /></td>
+                                <td><c:out value="${deduction.amount}" /></td>
+                                <td><c:out value="${deduction.reason}" /></td>
+                                <td><fmt:formatDate value="${deduction.date}" pattern="yyyy-MM-dd" /></td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </div>
         </c:if>
         <c:if test="${empty deductions}">
             <p>No deductions found.</p>
