@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
- * Logout Servlet
+ * Logout Servlet   
  *
  * Controller for handling user logout.
  * Invalidates the current session and redirects the user to the login page.
