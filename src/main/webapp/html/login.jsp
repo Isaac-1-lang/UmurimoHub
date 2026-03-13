@@ -38,9 +38,6 @@
                 <img src="<c:url value='/captcha'/>" alt="CAPTCHA">
                 <input type="text" id="captcha" name="captcha" placeholder="Enter characters" required>
             </div>
-            <small style="display:block; margin-top:0.5rem; color: var(--text-muted); font-size: 0.8rem;">
-                Click image to refresh (coming soon, refresh page for now).
-            </small>
         </div>
 
         <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>

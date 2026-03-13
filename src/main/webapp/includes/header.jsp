@@ -21,7 +21,6 @@
         <div class="header-content">
             <div class="logo-section">
                 <img src="<c:url value='/assets/logo.png'/>" alt="UmurimoHub Logo" class="logo">
-                <h1>UmurimoHub</h1>
             </div>
             <div class="user-section">
                 <c:if test="${sessionScope.user != null}">
