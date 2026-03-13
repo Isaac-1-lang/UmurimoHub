@@ -12,6 +12,7 @@
         <class>com.umurimo.umurimohub.entities.DeductionEntity</class>
         <class>com.umurimo.umurimohub.entities.PunishmentEntity</class>
         <class>com.umurimo.umurimohub.entities.HRActivityLog</class>
+        <class>com.umurimo.umurimohub.entities.MessageEntity</class>
         
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>

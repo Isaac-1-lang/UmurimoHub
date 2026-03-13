@@ -1,0 +1,22 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------------< com.umurimo:umurimoHub >-----------------------
+[INFO] Building umurimoHub 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ war ]---------------------------------
+[INFO] 
+[INFO] --- cargo:1.10.13:run (default-cli) @ umurimoHub ---
+[INFO] Resolved container artifact org.codehaus.cargo:cargo-core-container-tomcat:jar:1.10.13 for container tomcat11x
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  5.689 s
+[INFO] Finished at: 2026-03-13T07:27:09+02:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.codehaus.cargo:cargo-maven3-plugin:1.10.13:run (default-cli) on project umurimoHub: Execution default-cli of goal org.codehaus.cargo:cargo-maven3-plugin:1.10.13:run failed: Failed to create deployable with implementation class org.codehaus.cargo.container.tomcat.TomcatWAR for the parameters (container [id = [tomcat11x]], deployable type [war]).: InvocationTargetException: Failed to parse Tomcat WAR file in [C:\Users\user\Documents\YEAR 2\Group projects\TERM I\Ecommerce\umurimoHub\target\umurimoHub-1.0-SNAPSHOT.war]: Failed to find file [C:\Users\user\Documents\YEAR 2\Group projects\TERM I\Ecommerce\umurimoHub\target\umurimoHub-1.0-SNAPSHOT.war]: C:\Users\user\Documents\YEAR 2\Group projects\TERM I\Ecommerce\umurimoHub\target\umurimoHub-1.0-SNAPSHOT.war (The system cannot find the file specified) -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/PluginExecutionException

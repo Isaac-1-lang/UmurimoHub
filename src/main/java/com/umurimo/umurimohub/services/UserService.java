@@ -142,6 +142,15 @@ public class UserService {
     }
 
     /**
+     * Retrieves all users in the system.
+     *
+     * @return a list of UserEntities
+     */
+    public List<UserEntity> getAllUsers() {
+        return userDAO.findAll();
+    }
+
+    /**
      * Retrieves all HR users in the system.
      *
      * @return a list of UserDTOs representing HR personnel

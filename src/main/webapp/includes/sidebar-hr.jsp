@@ -8,6 +8,7 @@
             <li><a href="<c:url value='/Attendance'/>" class="nav-link">Attendance</a></li>
             <li><a href="<c:url value='/Deduction'/>" class="nav-link">Deductions</a></li>
             <li><a href="<c:url value='/Punishment'/>" class="nav-link">Punishments</a></li>
+            <li><a href="<c:url value='/Chat'/>" class="nav-link">Chat</a></li>
         </ul>
     </nav>
 </aside>
