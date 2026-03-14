@@ -39,7 +39,6 @@ public class ChatEndpoint {
                 JsonObject response = new JsonObject();
                 response.addProperty("type", "history");
                 response.add("data", gson.toJsonTree(history));
-
                 session.getBasicRemote().sendText(response.toString());
             } else if ("message".equals(type)) {
                 String receiverId = jsonObject.get("receiverId").getAsString();

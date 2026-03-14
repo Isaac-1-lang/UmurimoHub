@@ -117,6 +117,19 @@ public class UserService {
     }
 
     /**
+     * Finds a user by email without checking password (used for Google Login).
+     *
+     * @param email the user's email
+     * @return the UserEntity or null if not found
+     */
+    public UserEntity getUserByEmail(String email) {
+        if (email == null || email.trim().isEmpty()) {
+            return null;
+        }
+        return userDAO.findByEmail(email);
+    }
+
+    /**
      * Changes a user's password.
      * Verifies the old password before updating to the new one.
      *

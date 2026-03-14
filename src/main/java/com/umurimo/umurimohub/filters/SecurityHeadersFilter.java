@@ -23,15 +23,16 @@ public class SecurityHeadersFilter implements Filter {
             http.setHeader("X-Frame-Options", "DENY");
             http.setHeader("Referrer-Policy", "no-referrer");
             http.setHeader("Permissions-Policy", "geolocation=(), microphone=(), camera=()");
-
-            // CSP: adjust if you add inline scripts/styles later
             http.setHeader("Content-Security-Policy",
                     "default-src 'self'; " +
-                    "img-src 'self' data:; " +
-                    "style-src 'self'; " +
-                    "script-src 'self'; " +
-                    "base-uri 'self'; " +
-                    "frame-ancestors 'none';");
+                            "img-src 'self' data:; " +
+                            "style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; " +
+                            "font-src 'self' https://fonts.gstatic.com; " +
+                            "script-src 'self' https://accounts.google.com https://apis.google.com 'unsafe-inline'; " +
+                            "frame-src https://accounts.google.com; " +
+                            "base-uri 'self'; " +
+                            "frame-ancestors 'none';"
+            );
         }
 
         chain.doFilter(request, response);
